@@ -323,8 +323,11 @@ function gmChunks(stops){
  for(let i=0;i<stops.length;i+=(MAX-1)){const seg=stops.slice(i,i+MAX);
    if(seg.length<2&&chunks.length)break;chunks.push(seg);if(i+MAX>=stops.length)break;}
  return chunks.map(seg=>{
-   const path=seg.map(s=>encodeURIComponent(s.name+" "+s.addr)).join("/");
-   return "https://www.google.com/maps/dir/"+path+"/data=!4m2!4m1!3e0";
+   const c=s=>s.lat.toFixed(6)+","+s.lng.toFixed(6);
+   let u="https://www.google.com/maps/dir/?api=1&travelmode=driving&origin="+c(seg[0])+"&destination="+c(seg[seg.length-1]);
+   const w=seg.slice(1,-1).map(c).join("%7C");
+   if(w) u+="&waypoints="+w;
+   return u;
  });
 }
 function stampHtml(s){
@@ -347,7 +350,7 @@ function selectRegion(id){
       (selected.userDist!=null?` · 내 위치에서 ~${Math.round(selected.userDist)}km`:``)+`</div>`;
    h+=`<div class="gmbar">${chunks.map((u,i)=>`<a class="gmbtn" href="${u}" target="_blank" rel="noopener">${ico}구글맵 길찾기${chunks.length>1?` · 구간 ${i+1}`:``}</a>`).join("")}</div>`;
  }else{
-   const u="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(m[0].name+" "+m[0].addr);
+   const u="https://www.google.com/maps/search/?api=1&query="+m[0].lat.toFixed(6)+","+m[0].lng.toFixed(6);
    h+=`<div class="gmbar"><a class="gmbtn" href="${u}" target="_blank" rel="noopener">${ico}구글맵에서 열기</a></div>`;
  }
  h+=`<div class="stops">`+m.map((s,i)=>{
