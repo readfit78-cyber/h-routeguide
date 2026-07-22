@@ -165,10 +165,17 @@ body{word-break:keep-all}
 .ios2{flex-basis:100%;background:rgba(0,0,0,.2);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.6;position:relative}
 .ios2 b{color:#FFD9A0}
 @media(max-width:560px){.install-cta .cta{width:100%}}
-.stopnav{display:inline-flex;align-items:center;gap:5px;margin-top:11px;background:#FEE500;color:#3A1D1D;font-weight:800;border-radius:9px;padding:8px 13px;font-size:12.5px;text-decoration:none}
-.stopnav:hover{background:#f5dc00}
+.navrow{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:11px}
+.navlbl{font-size:11.5px;font-weight:700;color:var(--muted)}
+.stopnav{display:inline-flex;align-items:center;gap:4px;font-weight:800;border-radius:8px;padding:7px 12px;font-size:12px;text-decoration:none}
+.stopnav.kakao{background:#FEE500;color:#3A1D1D}
+.stopnav.kakao:hover{background:#f5dc00}
+.stopnav.tmap{background:#2B4ACB;color:#fff}
+.stopnav.tmap:hover{background:#2340b0}
 .gmbtn.kakao{background:#FEE500;color:#3A1D1D}
 .gmbtn.kakao:hover{background:#f5dc00}
+.gmbtn.tmap{background:#2B4ACB;color:#fff}
+.gmbtn.tmap:hover{background:#2340b0}
 .navnote{font-size:11.5px;color:var(--muted);margin:2px 0 13px;line-height:1.65}
 .navnote b{color:var(--ink)}
 </style></head>
@@ -363,6 +370,7 @@ function selectRegion(id){
  const ico=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>`;
  const t=estTime(m), plan=dayPlan(m);
  const kakao=s=>"https://map.kakao.com/link/to/"+encodeURIComponent(s.name)+","+s.lat.toFixed(6)+","+s.lng.toFixed(6);
+ const tmap=s=>"tmap://route?goalname="+encodeURIComponent(s.name)+"&goalx="+s.lng.toFixed(6)+"&goaly="+s.lat.toFixed(6);
  let h="";
  if(m.length>1){
    h+=`<div class="summary">예상 소요 <b>약 ${fmtH(t.total)}</b> (이동 ${fmtH(t.moveH)} + 관람 ${fmtH(t.dwellH)}) · <b>${dayLabel(t.days)}</b> 권장`+
@@ -372,7 +380,7 @@ function selectRegion(id){
    h+=`<div class="gmbar">${nav.map((u,i)=>`<a class="gmbtn" href="${u}">🚗 전체 자동차 경로${nav.length>1?` · 구간 ${i+1}`:``}</a>`).join("")}</div>`;
    h+=`<p class="navnote">전체 경로는 <b>네이버 지도 앱</b>에서 열립니다(앱 필요). 앱이 없으면 각 지점의 <b>‘길찾기’(카카오맵)</b>를 이용하세요. ※ 구글맵은 국내 자동차 길찾기를 지원하지 않습니다.</p>`;
  }else{
-   h+=`<div class="gmbar"><a class="gmbtn kakao" href="${kakao(m[0])}" target="_blank" rel="noopener">🧭 카카오맵 길찾기</a></div>`;
+   h+=`<div class="gmbar"><a class="gmbtn kakao" href="${kakao(m[0])}" target="_blank" rel="noopener">🧭 카카오맵</a><a class="gmbtn tmap" href="${tmap(m[0])}">티맵</a></div>`;
  }
  h+=`<div class="stops">`+m.map((s,i)=>{
    const div=(i===0||plan[i]!==plan[i-1])&&t.days>1?`<div class="day-div">Day ${plan[i]}</div>`:``;
@@ -383,7 +391,7 @@ function selectRegion(id){
      <div class="body">${leg}<p class="nm">${s.name}</p><p class="ad">${s.addr}</p>
      <div class="stamps">${stampHtml(s)}</div>
      ${dup?`<div class="dupwarn">◆ 위 ${s.stamps.length}곳에 각각 스탬프 (중복 인증)</div>`:``}
-     <a class="stopnav" href="${kakao(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🧭 여기로 길찾기</a>
+     <div class="navrow"><span class="navlbl">🧭 길찾기</span><a class="stopnav kakao" href="${kakao(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">카카오맵</a><a class="stopnav tmap" href="${tmap(s)}" onclick="event.stopPropagation()">티맵</a></div>
      </div></div>`;}).join("")+`</div>`;
  document.getElementById("left").innerHTML=h;
  drawRegion(selected);
