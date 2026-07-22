@@ -165,6 +165,12 @@ body{word-break:keep-all}
 .ios2{flex-basis:100%;background:rgba(0,0,0,.2);border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.6;position:relative}
 .ios2 b{color:#FFD9A0}
 @media(max-width:560px){.install-cta .cta{width:100%}}
+.stopnav{display:inline-flex;align-items:center;gap:5px;margin-top:11px;background:#FEE500;color:#3A1D1D;font-weight:800;border-radius:9px;padding:8px 13px;font-size:12.5px;text-decoration:none}
+.stopnav:hover{background:#f5dc00}
+.gmbtn.kakao{background:#FEE500;color:#3A1D1D}
+.gmbtn.kakao:hover{background:#f5dc00}
+.navnote{font-size:11.5px;color:var(--muted);margin:2px 0 13px;line-height:1.65}
+.navnote b{color:var(--ink)}
 </style></head>
 <body>
 <div class="wrap">
@@ -337,21 +343,36 @@ function stampHtml(s){
  if(!rows) rows=`<div class="spec">쪽번호 정보 없음</div>`;
  return rows;
 }
+function naverChunks(stops){
+ if(stops.length<2)return [];
+ const MAX=7,chunks=[];
+ for(let i=0;i<stops.length;i+=(MAX-1)){const seg=stops.slice(i,i+MAX);
+   if(seg.length<2&&chunks.length)break;chunks.push(seg);if(i+MAX>=stops.length)break;}
+ return chunks.map(seg=>{
+   const s=seg[0],d=seg[seg.length-1],vs=seg.slice(1,-1);
+   let u="nmap://route/car?slat="+s.lat.toFixed(6)+"&slng="+s.lng.toFixed(6)+"&sname="+encodeURIComponent(s.name)
+        +"&dlat="+d.lat.toFixed(6)+"&dlng="+d.lng.toFixed(6)+"&dname="+encodeURIComponent(d.name);
+   vs.forEach((v,i)=>{u+="&v"+(i+1)+"lat="+v.lat.toFixed(6)+"&v"+(i+1)+"lng="+v.lng.toFixed(6)+"&v"+(i+1)+"name="+encodeURIComponent(v.name);});
+   u+="&appname=heritage.guide";return u;
+ });
+}
 function selectRegion(id){
  selected=regions[id];const m=selected.members;
  document.getElementById("back").style.display="inline";
  document.getElementById("col-title").textContent=selected.name;
  const ico=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>`;
- const t=estTime(m), plan=dayPlan(m), chunks=gmChunks(m);
+ const t=estTime(m), plan=dayPlan(m);
+ const kakao=s=>"https://map.kakao.com/link/to/"+encodeURIComponent(s.name)+","+s.lat.toFixed(6)+","+s.lng.toFixed(6);
  let h="";
  if(m.length>1){
    h+=`<div class="summary">예상 소요 <b>약 ${fmtH(t.total)}</b> (이동 ${fmtH(t.moveH)} + 관람 ${fmtH(t.dwellH)}) · <b>${dayLabel(t.days)}</b> 권장`+
       (t.days>1?` · 지점 간 표시된 날짜로 나눠 도세요`:``)+
       (selected.userDist!=null?` · 내 위치에서 ~${Math.round(selected.userDist)}km`:``)+`</div>`;
-   h+=`<div class="gmbar">${chunks.map((u,i)=>`<a class="gmbtn" href="${u}" target="_blank" rel="noopener">${ico}구글맵 길찾기${chunks.length>1?` · 구간 ${i+1}`:``}</a>`).join("")}</div>`;
+   const nav=naverChunks(m);
+   h+=`<div class="gmbar">${nav.map((u,i)=>`<a class="gmbtn" href="${u}">🚗 전체 자동차 경로${nav.length>1?` · 구간 ${i+1}`:``}</a>`).join("")}</div>`;
+   h+=`<p class="navnote">전체 경로는 <b>네이버 지도 앱</b>에서 열립니다(앱 필요). 앱이 없으면 각 지점의 <b>‘길찾기’(카카오맵)</b>를 이용하세요. ※ 구글맵은 국내 자동차 길찾기를 지원하지 않습니다.</p>`;
  }else{
-   const u="https://www.google.com/maps/search/?api=1&query="+m[0].lat.toFixed(6)+","+m[0].lng.toFixed(6);
-   h+=`<div class="gmbar"><a class="gmbtn" href="${u}" target="_blank" rel="noopener">${ico}구글맵에서 열기</a></div>`;
+   h+=`<div class="gmbar"><a class="gmbtn kakao" href="${kakao(m[0])}" target="_blank" rel="noopener">🧭 카카오맵 길찾기</a></div>`;
  }
  h+=`<div class="stops">`+m.map((s,i)=>{
    const div=(i===0||plan[i]!==plan[i-1])&&t.days>1?`<div class="day-div">Day ${plan[i]}</div>`:``;
@@ -362,6 +383,7 @@ function selectRegion(id){
      <div class="body">${leg}<p class="nm">${s.name}</p><p class="ad">${s.addr}</p>
      <div class="stamps">${stampHtml(s)}</div>
      ${dup?`<div class="dupwarn">◆ 위 ${s.stamps.length}곳에 각각 스탬프 (중복 인증)</div>`:``}
+     <a class="stopnav" href="${kakao(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🧭 여기로 길찾기</a>
      </div></div>`;}).join("")+`</div>`;
  document.getElementById("left").innerHTML=h;
  drawRegion(selected);
