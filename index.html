@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
+<!--
+  ============================================================
+   국가유산 방문 가이드  |  Visit Korean Heritage Guide
+   기획·제작 (Created by): 박정빈  ·  최초 제작: 2026
+   © 2026 박정빈. All rights reserved.
+   무단 복제·재배포·도용 금지 (Unauthorized copying prohibited).
+   링크 공유·홍보는 환영합니다 (Sharing the link is welcome).
+   원본 (Official source): https://readfit78-cyber.github.io/h-routeguide
+  ============================================================
+-->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -193,8 +203,12 @@ body{word-break:keep-all}
 .empty{color:var(--muted);font-size:13px;padding:8px 4px;margin:0}
 .alldone{text-align:center;padding:34px 12px;font-size:16px;font-weight:700;color:var(--teal-d);line-height:1.8}
 .linklike{background:none;border:none;color:var(--teal-d);text-decoration:underline;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700}
+.piracy{display:none;background:#B23A2E;color:#fff;font-size:13px;font-weight:700;text-align:center;padding:11px 42px;position:relative;line-height:1.5}
+.piracy a{color:#FFD9A0;text-decoration:underline;font-weight:800}
+.piracy .x{position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;opacity:.85;font-weight:800}
 </style></head>
 <body>
+<div class="piracy" id="piracy">⚠️ 무단 복제본일 수 있습니다. 이 콘텐츠의 원본·제작자는 <b>박정빈</b>입니다 · <a href="https://readfit78-cyber.github.io/h-routeguide" target="_blank" rel="noopener">원본 보기</a><span class="x" onclick="document.getElementById('piracy').style.display='none'">✕</span></div>
 <div class="wrap">
  <header>
   <div class="brand">
@@ -262,6 +276,7 @@ body{word-break:keep-all}
  </section>
  <footer>
   <p style="color:var(--stamp);font-weight:700;margin:0 0 8px">※ 이 페이지는 개인이 공개정보를 바탕으로 만든 <b>비공식 안내</b>입니다. 국가유산청·국가유산 방문 캠페인의 공식 서비스가 아니며, 방문 전 공식 누리집에서 최신 정보(코스·스탬프 위치·혜택)를 확인하세요.</p>
+  <p style="margin:0 0 8px"><b>제작·저작권</b> · © 2026 <b>박정빈</b>. 이 서비스는 박정빈이 기획·제작한 개인 저작물입니다(최초 제작 2026년). <b>무단 복제·재배포·도용을 금지</b>합니다. 다만 지인·주변에 <b>링크 공유와 홍보는 언제나 환영</b>합니다. 원본: <a href="https://readfit78-cyber.github.io/h-routeguide" target="_blank" rel="noopener">https://readfit78-cyber.github.io/h-routeguide</a></p>
   거점·주소·여권 쪽번호 데이터: 국가유산 방문 캠페인(국가유산청·국가유산진흥원) 공개정보 및 사용자 제공 여권 정보 정리 · 좌표: OpenStreetMap(근사) · 지도: Leaflet/OSM · 길찾기: Google Maps.
   소요시간은 도로거리·평균 50km/h·거점당 관람시간 기준 <b>추정치</b>입니다.<br>
   최신 코스·거점·혜택·스탬프 위치는 <a href="https://www.kh.or.kr/visit" target="_blank" rel="noopener">국가유산 방문 캠페인 공식 누리집</a>에서 확인하세요.
@@ -498,6 +513,10 @@ document.getElementById("note-d").open = window.innerWidth>880;
  if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("./sw.js").catch(()=>{});});}
 })();
 
+(function(){
+ const OK=["readfit78-cyber.github.io","localhost","127.0.0.1",""];
+ if(!OK.includes(location.hostname)){const el=document.getElementById("piracy");if(el)el.style.display="block";}
+})();
 recompute();
 </script>
 </body></html>
