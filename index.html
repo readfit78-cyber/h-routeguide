@@ -182,6 +182,10 @@ body{word-break:keep-all}
 .stopnav.kakao:hover{background:#f5dc00}
 .stopnav.tmap{background:#2B4ACB;color:#fff}
 .stopnav.tmap:hover{background:#2340b0}
+.stopnav.naver{background:#03C75A;color:#fff}
+.stopnav.naver:hover{background:#02a94c}
+.gmbtn.naver{background:#03C75A;color:#fff}
+.gmbtn.naver:hover{background:#02a94c}
 .gmbtn.kakao{background:#FEE500;color:#3A1D1D}
 .gmbtn.kakao:hover{background:#f5dc00}
 .gmbtn.tmap{background:#2B4ACB;color:#fff}
@@ -206,52 +210,58 @@ body{word-break:keep-all}
 .piracy{display:none;background:#B23A2E;color:#fff;font-size:13px;font-weight:700;text-align:center;padding:11px 42px;position:relative;line-height:1.5}
 .piracy a{color:#FFD9A0;text-decoration:underline;font-weight:800}
 .piracy .x{position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;opacity:.85;font-weight:800}
+.langbar{display:flex;justify-content:flex-end;padding-top:14px}
+.langbtn{border:1px solid var(--line);background:#fff;color:var(--muted);font-weight:700;font-size:12.5px;padding:6px 14px;cursor:pointer;font-family:inherit}
+.langbtn:first-child{border-radius:8px 0 0 8px}
+.langbtn:last-child{border-radius:0 8px 8px 0;border-left:none}
+.langbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 </style></head>
 <body>
 <div class="piracy" id="piracy">⚠️ 무단 복제본일 수 있습니다. 이 콘텐츠의 원본·제작자는 <b>박정빈</b>입니다 · <a href="https://readfit78-cyber.github.io/h-routeguide" target="_blank" rel="noopener">원본 보기</a><span class="x" onclick="document.getElementById('piracy').style.display='none'">✕</span></div>
 <div class="wrap">
+ <div class="langbar"><button class="langbtn" id="lang-ko" onclick="setLang('ko')">한국어</button><button class="langbtn" id="lang-en" onclick="setLang('en')">EN</button></div>
  <header>
   <div class="brand">
    <img class="brand-logo" src="./icon-192.png" alt="국가유산 방문 가이드 로고">
    <div class="brand-txt">
     <p class="eyebrow">Visit Korean Heritage Guide</p>
-    <h1>국가유산 방문 가이드</h1>
+    <h1 data-i18n="h1brand">국가유산 방문 가이드</h1>
    </div>
   </div>
-  <p class="sub">코스가 아니라 <b>실제로 가까운 거점끼리</b> 묶었습니다. 반경을 조절하면 그 거리 안에서 이어 도는 권역이 자동으로 묶이고, 권역을 누르면 방문 순서·예상 소요시간·구글맵 길찾기·여권 스탬프 위치(코스·칸·쪽)를 보여줍니다.</p>
+  <p class="sub" data-i18n-html="sub">코스가 아니라 <b>실제로 가까운 거점끼리</b> 묶었습니다. 반경을 조절하면 그 거리 안에서 이어 도는 권역이 자동으로 묶이고, 권역을 누르면 방문 순서·예상 소요시간·길찾기(자동차·대중교통)·여권 스탬프 위치(코스·칸·쪽)를 보여줍니다.</p>
  </header>
  <div class="panel">
   <div class="slider-row">
-   <label for="th">묶는 반경 (지점 간 최대 거리)</label>
+   <label for="th" data-i18n="sliderLabel">묶는 반경 (지점 간 최대 거리)</label>
    <input type="range" id="th" min="8" max="40" value="20" step="1">
    <span class="thval" id="thval">20 km</span>
   </div>
   <div class="opt-row">
-   <button class="gps-btn" id="gps">📍 내 위치에서 가까운 순</button>
+   <button class="gps-btn" id="gps" data-i18n="gpsBtn">📍 내 위치에서 가까운 순</button>
    <span class="gps-msg" id="gps-msg"></span>
-   <label class="hidev-lbl"><input type="checkbox" id="hidev"> 다녀온 곳 숨기기</label>
-   <span class="dwell">거점당 관람
+   <label class="hidev-lbl"><input type="checkbox" id="hidev"> <span data-i18n="hideVisited">다녀온 곳 숨기기</span></label>
+   <span class="dwell"><span data-i18n="dwellLabel">거점당 관람</span>
     <select id="dwell"><option value="30">30분</option><option value="45" selected>45분</option>
     <option value="60">60분</option><option value="90">90분</option></select>
    </span>
   </div>
   <div class="stats">
-   <div class="stat"><b id="s-reg">–</b><span>여러 곳 묶음 권역</span></div>
-   <div class="stat"><b id="s-big">–</b><span>가장 큰 묶음</span></div>
-   <div class="stat"><b id="s-single">–</b><span>단독 거점</span></div>
-   <div class="stat"><b id="s-total">87곳</b><span>전체 거점</span></div>
-   <div class="stat"><b id="s-visit">0곳</b><span>방문 완료 · <a class="reset" onclick="resetVisited()">초기화</a></span></div>
+   <div class="stat"><b id="s-reg">–</b><span data-i18n="statReg">여러 곳 묶음 권역</span></div>
+   <div class="stat"><b id="s-big">–</b><span data-i18n="statBig">가장 큰 묶음</span></div>
+   <div class="stat"><b id="s-single">–</b><span data-i18n="statSingle">단독 거점</span></div>
+   <div class="stat"><b id="s-total">87곳</b><span data-i18n="statTotal">전체 거점</span></div>
+   <div class="stat"><b id="s-visit">0곳</b><span><span data-i18n="statVisit">방문 완료</span> · <a class="reset" onclick="resetVisited()" data-i18n="reset">초기화</a></span></div>
   </div>
  </div>
  <details class="note" id="note-d">
-  <summary><span>스탬프 안내 (겹치는 거점·종묘 2회 등)</span><span class="chev">›</span></summary>
-  <div class="note-body">한 거점이 여러 코스에 겹치면(마곡사·돈암서원·도산서원·봉정사) <b>각 코스 페이지에 각각</b> 찍어야 합니다.
+  <summary><span data-i18n="noteSummary">스탬프 안내 (겹치는 거점·종묘 2회 등)</span><span class="chev">›</span></summary>
+  <div class="note-body" data-i18n-html="noteBody">한 거점이 여러 코스에 겹치면(마곡사·돈암서원·도산서원·봉정사) <b>각 코스 페이지에 각각</b> 찍어야 합니다.
   종묘는 왕가의 길에서 <b>87p·96p 두 번</b> 찍습니다. 도장은 현장 <b>‘방문자 여권 셀프 체험존’</b> 비치본만 유효합니다.
   세계유산위원회 특별코스 거점은 <b>별도 특별여권</b>이라 쪽번호가 없습니다.</div>
  </details>
  <div class="grid">
   <div>
-   <div class="col-head"><h2 id="col-title">권역 목록</h2><span class="back" id="back" style="display:none">← 권역 목록으로</span></div>
+   <div class="col-head"><h2 id="col-title">권역 목록</h2><span class="back" id="back" style="display:none" data-i18n="backToList">← 권역 목록으로</span></div>
    <div id="left"></div>
   </div>
   <div><div id="map"></div></div>
@@ -259,39 +269,58 @@ body{word-break:keep-all}
  <section class="install-cta" id="install-cta">
   <img class="ic" src="./icon-192.png" alt="앱 아이콘">
   <div class="txt">
-   <p class="t">홈 화면에 앱으로 추가</p>
-   <p class="s">설치하면 주소창 없이 전체화면으로 실행되고, 오프라인에서도 열립니다.</p>
+   <p class="t" data-i18n="installTitle">홈 화면에 앱으로 추가</p>
+   <p class="s" data-i18n="installDesc">설치하면 주소창 없이 전체화면으로 실행되고, 오프라인에서도 열립니다.</p>
   </div>
-  <button class="cta" id="install2">앱 설치</button>
-  <div class="ios2" id="ios2" style="display:none">아이폰은 사파리 하단 <b>공유 ⬆️</b> → <b>‘홈 화면에 추가’</b>를 누르면 설치됩니다.</div>
+  <button class="cta" id="install2" data-i18n="installBtn">앱 설치</button>
+  <div class="ios2" id="ios2" style="display:none" data-i18n-html="ios2">아이폰은 사파리 하단 <b>공유 ⬆️</b> → <b>‘홈 화면에 추가’</b>를 누르면 설치됩니다.</div>
  </section>
  <footer>
   <a class="read-banner" href="https://dokpa.vercel.app" target="_blank" rel="noopener">
    <span class="read-logo">R<span class="d">.</span>E<span class="d">.</span>A<span class="d">.</span>D<span class="d">.</span></span>
    <span class="read-copy">
-    <p class="rt">여행은 이렇게 코스로, 아이 국어 독해력도 코스로 잡으세요</p>
-    <p class="rs">가장 정확한 처방, 가장 완벽한 학습 — R.E.A.D. 독해 진단</p>
+    <p class="rt" data-i18n="readRt">여행은 이렇게 코스로, 아이 국어 독해력도 코스로 잡으세요</p>
+    <p class="rs" data-i18n="readRs">가장 정확한 처방, 가장 완벽한 학습 — R.E.A.D. 독해 진단</p>
    </span>
-   <span class="read-cta">무료 진단 시작 →</span>
+   <span class="read-cta" data-i18n="readCta">무료 진단 시작 →</span>
   </a>
-  <p style="color:var(--stamp);font-weight:700;margin:0 0 8px">※ 이 페이지는 개인이 공개정보를 바탕으로 만든 <b>비공식 안내</b>입니다. 국가유산청·국가유산 방문 캠페인의 공식 서비스가 아니며, 방문 전 공식 누리집에서 최신 정보(코스·스탬프 위치·혜택)를 확인하세요.</p>
-  <p style="color:var(--teal-d);font-weight:700;margin:0 0 8px">(위 배너는 제가 만든 무료 국어 문해력×약점극복 앱입니다. 많은 관심 부탁드립니다.)</p>
-  <p style="margin:0 0 8px"><b>제작·저작권</b> · © 2026 <b>박정빈</b>. 이 서비스는 박정빈이 기획·제작한 개인 저작물입니다(최초 제작 2026년). <b>무단 복제·재배포·도용을 금지</b>합니다. 다만 지인·주변에 <b>링크 공유와 홍보는 언제나 환영</b>합니다. 원본: <a href="https://readfit78-cyber.github.io/h-routeguide" target="_blank" rel="noopener">https://readfit78-cyber.github.io/h-routeguide</a></p>
-  거점·주소·여권 쪽번호 데이터: 국가유산 방문 캠페인(국가유산청·국가유산진흥원) 공개정보 및 사용자 제공 여권 정보 정리 · 좌표: OpenStreetMap(근사) · 지도: Leaflet/OSM · 길찾기: Google Maps.
-  소요시간은 도로거리·평균 50km/h·거점당 관람시간 기준 <b>추정치</b>입니다.<br>
-  최신 코스·거점·혜택·스탬프 위치는 <a href="https://www.kh.or.kr/visit" target="_blank" rel="noopener">국가유산 방문 캠페인 공식 누리집</a>에서 확인하세요.
+  <p style="color:var(--stamp);font-weight:700;margin:0 0 8px" data-i18n-html="footDisclosure">※ 이 페이지는 개인이 공개정보를 바탕으로 만든 <b>비공식 안내</b>입니다. 국가유산청·국가유산 방문 캠페인의 공식 서비스가 아니며, 방문 전 공식 누리집에서 최신 정보(코스·스탬프 위치·혜택)를 확인하세요.</p>
+  <p style="color:var(--teal-d);font-weight:700;margin:0 0 8px" data-i18n="introText">(위 배너는 제가 만든 무료 국어 문해력×약점극복 앱입니다. 많은 관심 부탁드립니다.)</p>
+  <p style="margin:0 0 8px" data-i18n-html="license"><b>제작·저작권</b> · © 2026 <b>박정빈</b>. 이 서비스는 박정빈이 기획·제작한 개인 저작물입니다(최초 제작 2026년). <b>무단 복제·재배포·도용을 금지</b>합니다. 다만 지인·주변에 <b>링크 공유와 홍보는 언제나 환영</b>합니다. 원본: <a href="https://readfit78-cyber.github.io/h-routeguide" target="_blank" rel="noopener">https://readfit78-cyber.github.io/h-routeguide</a></p>
+  <span data-i18n-html="dataCredit">거점·주소·여권 쪽번호 데이터: 국가유산 방문 캠페인(국가유산청·국가유산진흥원) 공개정보 및 사용자 제공 여권 정보 정리 · 좌표: OpenStreetMap(근사) · 지도: Leaflet/OSM · 길찾기: 카카오맵·네이버지도·티맵. 소요시간은 도로거리·평균 50km/h·거점당 관람시간 기준 <b>추정치</b>입니다.<br>최신 코스·거점·혜택·스탬프 위치는 <a href="https://www.kh.or.kr/visit" target="_blank" rel="noopener">국가유산 방문 캠페인 공식 누리집</a>에서 확인하세요.</span>
  </footer>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>const HERITAGE_DATA = {"sites": [{"name": "고령 지산동 고분군", "addr": "경상북도 고령군 대가야읍 지산리 산23-1", "lat": 35.73209, "lng": 128.25741, "sido": "경북", "sigungu": "고령군", "stamps": [{"course": "가야", "courseName": "가야 문명의 길", "slot": "1", "page": 13}], "special": true}, {"name": "고성 송학동 고분군", "addr": "경상남도 고성군 고성읍 송학리 470", "lat": 34.977565, "lng": 128.320239, "sido": "경남", "sigungu": "고성군", "stamps": [{"course": "가야", "courseName": "가야 문명의 길", "slot": "2", "page": 14}], "special": true}, {"name": "국립김해박물관", "addr": "경상남도 김해시 가야의길 190", "lat": 35.23436, "lng": 128.8736, "sido": "경남", "sigungu": "김해시", "stamps": [{"course": "가야", "courseName": "가야 문명의 길", "slot": "3", "page": 15}], "special": true}, {"name": "김해 대성동 고분군", "addr": "경상남도 김해시 가야의길 126", "lat": 35.237546, "lng": 128.873864, "sido": "경남", "sigungu": "김해시", "stamps": [{"course": "가야", "courseName": "가야 문명의 길", "slot": "4", "page": 16}], "special": true}, {"name": "김해 수로왕릉", "addr": "경상남도 김해시 왕릉길 26", "lat": 35.232843, "lng": 128.872099, "sido": "경남", "sigungu": "김해시", "stamps": [{"course": "가야", "courseName": "가야 문명의 길", "slot": "5", "page": 17}], "special": true}, {"name": "남원 유곡리와 두락리 고분군", "addr": "전북특별자치도 남원시 인월면 가야로 90", "lat": 35.5077, "lng": 127.621336, "sido": "전북", "sigungu": "남원시", "stamps": [{"course": "가야", "courseName": "가야 문명의 길", "slot": "6", "page": 18}], "special": false}, {"name": "창녕 교동과 송현동 고분군", "addr": "경상남도 창녕군 창녕읍 교리 124", "lat": 35.52993, "lng": 128.49609, "sido": "경남", "sigungu": "창녕군", "stamps": [{"course": "가야", "courseName": "가야 문명의 길", "slot": "7", "page": 19}], "special": true}, {"name": "함안 말이산 고분군", "addr": "경상남도 함안군 가야읍 말산리 325-1", "lat": 35.27122, "lng": 128.39564, "sido": "경남", "sigungu": "함안군", "stamps": [{"course": "가야", "courseName": "가야 문명의 길", "slot": "8", "page": 20}], "special": true}, {"name": "합천 옥전 고분군", "addr": "경상남도 합천군 쌍책면 성산리 산29-1", "lat": 35.60092, "lng": 128.27357, "sido": "경남", "sigungu": "합천군", "stamps": [{"course": "가야", "courseName": "가야 문명의 길", "slot": "9", "page": 21}], "special": true}, {"name": "공산성", "addr": "충청남도 공주시 웅진로 280", "lat": 36.463143, "lng": 127.126441, "sido": "충남", "sigungu": "공주시", "stamps": [{"course": "백제", "courseName": "백제 고도의 길", "slot": "21", "page": 30}], "special": false}, {"name": "공주 마곡사", "addr": "충청남도 공주시 사곡면 마곡사로 966", "lat": 36.558175, "lng": 127.012552, "sido": "충남", "sigungu": "공주시", "stamps": [{"course": "백제", "courseName": "백제 고도의 길", "slot": "22", "page": 31}, {"course": "산사", "courseName": "산사의 길", "slot": "31", "page": 40}], "special": false}, {"name": "논산 돈암서원", "addr": "충청남도 논산시 연산면 임3길 26-14", "lat": 36.231227, "lng": 127.199406, "sido": "충남", "sigungu": "논산시", "stamps": [{"course": "백제", "courseName": "백제 고도의 길", "slot": "23", "page": 32}, {"course": "서원", "courseName": "서원의 길", "slot": "42", "page": 51}], "special": false}, {"name": "부여 나성", "addr": "충청남도 부여군 부여읍 왕릉로 61", "lat": 36.273171, "lng": 126.940307, "sido": "충남", "sigungu": "부여군", "stamps": [{"course": "백제", "courseName": "백제 고도의 길", "slot": "24", "page": 33}], "special": false}, {"name": "부소산성", "addr": "충청남도 부여군 부여읍 부소로 31", "lat": 36.289242, "lng": 126.915187, "sido": "충남", "sigungu": "부여군", "stamps": [{"course": "백제", "courseName": "백제 고도의 길", "slot": "25", "page": 34}], "special": false}, {"name": "익산 미륵사지", "addr": "전북특별자치도 익산시 금마면 기양리 32-2", "lat": 36.01221, "lng": 127.030612, "sido": "전북", "sigungu": "익산시", "stamps": [{"course": "백제", "courseName": "백제 고도의 길", "slot": "26", "page": 37}], "special": false}, {"name": "익산 왕궁리 유적", "addr": "전북특별자치도 익산시 왕궁면 궁성로 666", "lat": 35.952457, "lng": 127.05352, "sido": "전북", "sigungu": "익산시", "stamps": [{"course": "백제", "courseName": "백제 고도의 길", "slot": "27", "page": 38}], "special": false}, {"name": "부여 왕릉원", "addr": "충청남도 부여군 부여읍 왕릉로 61", "lat": 36.278553, "lng": 126.944188, "sido": "충남", "sigungu": "부여군", "stamps": [{"course": "백제", "courseName": "백제 고도의 길", "slot": "25-1", "page": 35}], "special": false}, {"name": "부여 정림사지", "addr": "충청남도 부여군 부여읍 정림로 83", "lat": 36.279263, "lng": 126.914408, "sido": "충남", "sigungu": "부여군", "stamps": [{"course": "백제", "courseName": "백제 고도의 길", "slot": "25-2", "page": 36}], "special": false}, {"name": "경주 옥산서원", "addr": "경상북도 경주시 안강읍 옥산서원길 216-27", "lat": 36.011701, "lng": 129.163383, "sido": "경북", "sigungu": "경주시", "stamps": [{"course": "서원", "courseName": "서원의 길", "slot": "41", "page": 50}], "special": true}, {"name": "달성 도동서원", "addr": "대구광역시 달성군 구지면 도동서원로 1", "lat": 35.700922, "lng": 128.371905, "sido": "대구", "sigungu": "달성군", "stamps": [{"course": "서원", "courseName": "서원의 길", "slot": "43", "page": 52}], "special": true}, {"name": "안동 도산서원", "addr": "경상북도 안동시 도산면 도산서원길 154", "lat": 36.72722, "lng": 128.843531, "sido": "경북", "sigungu": "안동시", "stamps": [{"course": "서원", "courseName": "서원의 길", "slot": "44", "page": 53}, {"course": "천년", "courseName": "천년 정신의 길", "slot": "96", "page": 104}], "special": true}, {"name": "안동 병산서원", "addr": "경상북도 안동시 풍천면 병산길 386", "lat": 36.542104, "lng": 128.556772, "sido": "경북", "sigungu": "안동시", "stamps": [{"course": "서원", "courseName": "서원의 길", "slot": "45", "page": 54}], "special": true}, {"name": "영주 소수서원", "addr": "경상북도 영주시 순흥면 소백로 2740", "lat": 36.925233, "lng": 128.580106, "sido": "경북", "sigungu": "영주시", "stamps": [{"course": "서원", "courseName": "서원의 길", "slot": "46", "page": 55}], "special": true}, {"name": "장성 필암서원", "addr": "전라남도 장성군 황룡면 필암서원로 187", "lat": 35.310604, "lng": 126.751673, "sido": "전남", "sigungu": "장성군", "stamps": [{"course": "서원", "courseName": "서원의 길", "slot": "47", "page": 56}], "special": false}, {"name": "정읍 무성서원", "addr": "전북특별자치도 정읍시 칠보면 원촌1길 44-12", "lat": 35.601955, "lng": 126.983864, "sido": "전북", "sigungu": "정읍시", "stamps": [{"course": "서원", "courseName": "서원의 길", "slot": "48", "page": 57}], "special": false}, {"name": "함양 남계서원", "addr": "경상남도 함양군 수동면 남계서원길 8-11", "lat": 35.548876, "lng": 127.783632, "sido": "경남", "sigungu": "함양군", "stamps": [{"course": "서원", "courseName": "서원의 길", "slot": "49", "page": 58}], "special": false}, {"name": "제주 마라도 천연보호구역", "addr": "제주특별자치도 서귀포시 대정읍 마라로101번길 46-1", "lat": 33.11852, "lng": 126.267343, "sido": "제주", "sigungu": "서귀포시", "stamps": [{"course": "설화", "courseName": "설화와 자연의 길", "slot": "61", "page": 68}], "special": false}, {"name": "만장굴", "addr": "제주특별자치도 제주시 구좌읍 만장굴길 182", "lat": 33.528254, "lng": 126.770128, "sido": "제주", "sigungu": "제주시", "stamps": [{"course": "설화", "courseName": "설화와 자연의 길", "slot": "62", "page": 69}], "special": false}, {"name": "용머리해안", "addr": "제주특별자치도 서귀포시 안덕면 사계리 용머리해안", "lat": 33.233304, "lng": 126.313067, "sido": "제주", "sigungu": "서귀포시", "stamps": [{"course": "설화", "courseName": "설화와 자연의 길", "slot": "63", "page": 70}], "special": false}, {"name": "산방산", "addr": "제주특별자치도 서귀포시 안덕면 사계리 산16", "lat": 33.241556, "lng": 126.313343, "sido": "제주", "sigungu": "서귀포시", "stamps": [{"course": "설화", "courseName": "설화와 자연의 길", "slot": "64", "page": 71}], "special": false}, {"name": "쇠소깍", "addr": "제주특별자치도 서귀포시 쇠소깍로 104", "lat": 33.252594, "lng": 126.623466, "sido": "제주", "sigungu": "서귀포시", "stamps": [{"course": "설화", "courseName": "설화와 자연의 길", "slot": "65", "page": 72}], "special": false}, {"name": "거문오름", "addr": "제주특별자치도 제주시 조천읍 선흘리 산102-1", "lat": 33.454787, "lng": 126.718221, "sido": "제주", "sigungu": "제주시", "stamps": [{"course": "설화", "courseName": "설화와 자연의 길", "slot": "66", "page": 73}], "special": false}, {"name": "성산일출봉", "addr": "제주특별자치도 서귀포시 성산읍 성산리 78", "lat": 33.458889, "lng": 126.940818, "sido": "제주", "sigungu": "서귀포시", "stamps": [{"course": "설화", "courseName": "설화와 자연의 길", "slot": "67", "page": 74}], "special": false}, {"name": "제주 중문대포해안 주상절리대", "addr": "제주특별자치도 서귀포시 이어도로 36-30", "lat": 33.237893, "lng": 126.425586, "sido": "제주", "sigungu": "서귀포시", "stamps": [{"course": "설화", "courseName": "설화와 자연의 길", "slot": "68", "page": 75}], "special": false}, {"name": "남한산성", "addr": "경기도 광주시 남한산성면 산성리 산23", "lat": 37.479137, "lng": 127.180159, "sido": "경기", "sigungu": "광주시", "stamps": [{"course": "왕가", "courseName": "왕가의 길", "slot": "81", "page": 85}], "special": false}, {"name": "수원 화성", "addr": "경기도 수원시 장안구 영화동 320-2", "lat": 37.210036, "lng": 126.975775, "sido": "경기", "sigungu": "수원시", "stamps": [{"course": "왕가", "courseName": "왕가의 길", "slot": "82", "page": 86}], "special": false}, {"name": "종묘", "addr": "서울특별시 종로구 종로 157", "lat": 37.574953, "lng": 126.993879, "sido": "서울", "sigungu": "종로구", "stamps": [{"course": "왕가", "courseName": "왕가의 길 (1)", "slot": "83", "page": 87}, {"course": "왕가", "courseName": "왕가의 길 (2)", "slot": "83", "page": 96}], "special": false}, {"name": "창덕궁", "addr": "서울특별시 종로구 율곡로 99", "lat": 37.582387, "lng": 126.991701, "sido": "서울", "sigungu": "종로구", "stamps": [{"course": "왕가", "courseName": "왕가의 길", "slot": "84", "page": 88}], "special": false}, {"name": "융건릉", "addr": "경기도 화성시 효행로481번길 21", "lat": 37.208282, "lng": 126.98898, "sido": "경기", "sigungu": "화성시", "stamps": [{"course": "왕가", "courseName": "왕가의 길", "slot": "85", "page": 89}], "special": false}, {"name": "강화 고인돌 유적", "addr": "인천광역시 강화군 하점면 강화대로 994-19", "lat": 37.77302, "lng": 126.425136, "sido": "인천", "sigungu": "강화군", "stamps": [{"course": "왕가", "courseName": "왕가의 길", "slot": "86", "page": 91}], "special": false}, {"name": "강화 전등사", "addr": "인천광역시 강화군 길상면 전등사로 37-41", "lat": 37.631972, "lng": 126.484647, "sido": "인천", "sigungu": "강화군", "stamps": [{"course": "왕가", "courseName": "왕가의 길", "slot": "87", "page": 93}], "special": false}, {"name": "경복궁", "addr": "서울특별시 종로구 사직로 161", "lat": 37.579754, "lng": 126.976682, "sido": "서울", "sigungu": "종로구", "stamps": [{"course": "왕가", "courseName": "왕가의 길", "slot": "88", "page": 94}], "special": false}, {"name": "김포 장릉", "addr": "경기도 김포시 장릉로 79", "lat": 37.613022, "lng": 126.711142, "sido": "경기", "sigungu": "김포시", "stamps": [{"course": "왕가", "courseName": "왕가의 길", "slot": "89", "page": 95}], "special": false}, {"name": "한국의집", "addr": "서울특별시 중구 퇴계로36길 10", "lat": 37.560203, "lng": 126.994684, "sido": "서울", "sigungu": "중구", "stamps": [{"course": "왕가", "courseName": "왕가의 길", "slot": "85-1", "page": 90}], "special": false}, {"name": "강화역사박물관", "addr": "인천광역시 강화군 하점면 강화대로 994-19", "lat": 37.774021, "lng": 126.435602, "sido": "인천", "sigungu": "강화군", "stamps": [{"course": "왕가", "courseName": "왕가의 길", "slot": "86-1", "page": 92}], "special": false}, {"name": "경포대", "addr": "강원특별자치도 강릉시 경포로 365", "lat": 37.794754, "lng": 128.896357, "sido": "강원", "sigungu": "강릉시", "stamps": [{"course": "관동", "courseName": "관동 풍류의 길", "slot": "11", "page": 23}], "special": false}, {"name": "강릉 선교장", "addr": "강원특별자치도 강릉시 운정길 63", "lat": 37.786204, "lng": 128.884754, "sido": "강원", "sigungu": "강릉시", "stamps": [{"course": "관동", "courseName": "관동 풍류의 길", "slot": "12", "page": 24}], "special": false}, {"name": "오죽헌", "addr": "강원특별자치도 강릉시 율곡로3139번길 24", "lat": 37.779053, "lng": 128.880071, "sido": "강원", "sigungu": "강릉시", "stamps": [{"course": "관동", "courseName": "관동 풍류의 길", "slot": "13", "page": 25}], "special": false}, {"name": "속초 신흥사", "addr": "강원특별자치도 속초시 설악산로 1137", "lat": 38.175376, "lng": 128.484703, "sido": "강원", "sigungu": "속초시", "stamps": [{"course": "관동", "courseName": "관동 풍류의 길", "slot": "14", "page": 26}], "special": false}, {"name": "양양 낙산사", "addr": "강원특별자치도 양양군 강현면 낙산사로 100", "lat": 38.124506, "lng": 128.629136, "sido": "강원", "sigungu": "양양군", "stamps": [{"course": "관동", "courseName": "관동 풍류의 길", "slot": "15", "page": 27}], "special": false}, {"name": "평창 월정사", "addr": "강원특별자치도 평창군 진부면 오대산로 374-8", "lat": 37.731937, "lng": 128.591995, "sido": "강원", "sigungu": "평창군", "stamps": [{"course": "관동", "courseName": "관동 풍류의 길", "slot": "16", "page": 28}], "special": false}, {"name": "보은 법주사", "addr": "충청북도 보은군 속리산면 법주사로 405", "lat": 36.543822, "lng": 127.834966, "sido": "충북", "sigungu": "보은군", "stamps": [{"course": "산사", "courseName": "산사의 길", "slot": "32", "page": 41}], "special": false}, {"name": "순천 선암사", "addr": "전라남도 순천시 승주읍 선암사길 450", "lat": 34.996884, "lng": 127.330933, "sido": "전남", "sigungu": "순천시", "stamps": [{"course": "산사", "courseName": "산사의 길", "slot": "33", "page": 42}], "special": false}, {"name": "순천 송광사", "addr": "전라남도 순천시 송광면 송광사안길 100", "lat": 35.001779, "lng": 127.275807, "sido": "전남", "sigungu": "순천시", "stamps": [{"course": "산사", "courseName": "산사의 길", "slot": "34", "page": 43}], "special": false}, {"name": "안동 봉정사", "addr": "경상북도 안동시 서후면 봉정사길 222", "lat": 36.653266, "lng": 128.662725, "sido": "경북", "sigungu": "안동시", "stamps": [{"course": "산사", "courseName": "산사의 길", "slot": "35", "page": 44}, {"course": "천년", "courseName": "천년 정신의 길", "slot": "97", "page": 105}], "special": true}, {"name": "양산 통도사", "addr": "경상남도 양산시 하북면 통도사로 108", "lat": 35.48786, "lng": 129.06429, "sido": "경남", "sigungu": "양산시", "stamps": [{"course": "산사", "courseName": "산사의 길", "slot": "36", "page": 45}], "special": true}, {"name": "영주 부석사", "addr": "경상북도 영주시 부석면 부석사로 345", "lat": 36.997388, "lng": 128.686649, "sido": "경북", "sigungu": "영주시", "stamps": [{"course": "산사", "courseName": "산사의 길", "slot": "37", "page": 46}], "special": true}, {"name": "합천 해인사", "addr": "경상남도 합천군 가야면 해인사길 122", "lat": 35.74824, "lng": 128.11068, "sido": "경남", "sigungu": "합천군", "stamps": [{"course": "산사", "courseName": "산사의 길", "slot": "38", "page": 47}], "special": true}, {"name": "해남 대흥사", "addr": "전라남도 해남군 삼산면 대흥사길 400", "lat": 34.476363, "lng": 126.615954, "sido": "전남", "sigungu": "해남군", "stamps": [{"course": "산사", "courseName": "산사의 길", "slot": "39", "page": 48}], "special": false}, {"name": "연천 전곡리 유적", "addr": "경기도 연천군 전곡읍 양연로 1510", "lat": 37.990188, "lng": 127.017678, "sido": "경기", "sigungu": "연천군", "stamps": [{"course": "선사", "courseName": "선사 지질의 길", "slot": "51", "page": 60}], "special": false}, {"name": "호로고루", "addr": "경기도 연천군 장남면 원당리 1257-1", "lat": 37.983399, "lng": 126.862705, "sido": "경기", "sigungu": "연천군", "stamps": [{"course": "선사", "courseName": "선사 지질의 길", "slot": "52", "page": 61}], "special": false}, {"name": "철원 고석정", "addr": "강원특별자치도 철원군 동송읍 장흥리 725-13", "lat": 38.24315, "lng": 127.25125, "sido": "강원", "sigungu": "철원군", "stamps": [{"course": "선사", "courseName": "선사 지질의 길", "slot": "53", "page": 62}], "special": false}, {"name": "포천 비둘기낭폭포", "addr": "경기도 포천시 영북면 대회산리 415-2", "lat": 38.07987, "lng": 127.217048, "sido": "경기", "sigungu": "포천시", "stamps": [{"course": "선사", "courseName": "선사 지질의 길", "slot": "54", "page": 63}], "special": false}, {"name": "포천 아트밸리", "addr": "경기도 포천시 신북면 아트밸리로 234", "lat": 37.933051, "lng": 127.231182, "sido": "경기", "sigungu": "포천시", "stamps": [{"course": "선사", "courseName": "선사 지질의 길", "slot": "55", "page": 64}], "special": false}, {"name": "한탄강 세계지질공원(포천)", "addr": "경기도 포천시 영북면 비둘기낭길 55", "lat": 38.07696, "lng": 127.27462, "sido": "경기", "sigungu": "포천시", "stamps": [{"course": "선사", "courseName": "선사 지질의 길", "slot": "56", "page": 65}], "special": false}, {"name": "포천 화적연", "addr": "경기도 포천시 영북면 자일리 산115-2", "lat": 38.0619, "lng": 127.2447, "sido": "경기", "sigungu": "포천시", "stamps": [{"course": "선사", "courseName": "선사 지질의 길", "slot": "57", "page": 66}], "special": false}, {"name": "고창판소리박물관", "addr": "전북특별자치도 고창군 고창읍 동리로 100", "lat": 35.432467, "lng": 126.702719, "sido": "전북", "sigungu": "고창군", "stamps": [{"course": "소릿", "courseName": "소릿길", "slot": "71", "page": 77}], "special": false}, {"name": "국립무형유산원", "addr": "전북특별자치도 전주시 완산구 서학로 95", "lat": 35.8099, "lng": 127.158526, "sido": "전북", "sigungu": "전주시", "stamps": [{"course": "소릿", "courseName": "소릿길", "slot": "72", "page": 78}], "special": false}, {"name": "남원 광한루원", "addr": "전북특별자치도 남원시 요천로 1447", "lat": 35.402798, "lng": 127.379539, "sido": "전북", "sigungu": "남원시", "stamps": [{"course": "소릿", "courseName": "소릿길", "slot": "73", "page": 79}], "special": false}, {"name": "필봉농악전수관", "addr": "전북특별자치도 임실군 강진면 강운로 272", "lat": 35.536707, "lng": 127.154406, "sido": "전북", "sigungu": "임실군", "stamps": [{"course": "소릿", "courseName": "소릿길", "slot": "74", "page": 80}], "special": false}, {"name": "국립남도국악원", "addr": "전라남도 진도군 임회면 진도대로 3818", "lat": 34.385477, "lng": 126.225508, "sido": "전남", "sigungu": "진도군", "stamps": [{"course": "소릿", "courseName": "소릿길", "slot": "75", "page": 81}], "special": false}, {"name": "국립해양유산연구소", "addr": "전라남도 목포시 남농로 136", "lat": 34.7857, "lng": 126.3757, "sido": "전남", "sigungu": "목포시", "stamps": [{"course": "소릿", "courseName": "소릿길", "slot": "76", "page": 82}], "special": false}, {"name": "우수영국민관광지", "addr": "전라남도 해남군 문내면 관광레저로 12", "lat": 34.618513, "lng": 126.313716, "sido": "전남", "sigungu": "해남군", "stamps": [{"course": "소릿", "courseName": "소릿길", "slot": "77", "page": 83}], "special": false}, {"name": "경주 계림", "addr": "경상북도 경주시 교촌안길 27-20", "lat": 35.83216, "lng": 129.217654, "sido": "경북", "sigungu": "경주시", "stamps": [{"course": "천년", "courseName": "천년 정신의 길", "slot": "91", "page": 98}], "special": true}, {"name": "경주 대릉원 일원", "addr": "경상북도 경주시 계림로 9", "lat": 35.837315, "lng": 129.214045, "sido": "경북", "sigungu": "경주시", "stamps": [{"course": "천년", "courseName": "천년 정신의 길", "slot": "92", "page": 99}], "special": true}, {"name": "경주 불국사", "addr": "경상북도 경주시 불국로 385", "lat": 35.788995, "lng": 129.33089, "sido": "경북", "sigungu": "경주시", "stamps": [{"course": "천년", "courseName": "천년 정신의 길", "slot": "93", "page": 101}], "special": true}, {"name": "경주 석굴암", "addr": "경상북도 경주시 석굴로 238", "lat": 35.794803, "lng": 129.349195, "sido": "경북", "sigungu": "경주시", "stamps": [{"course": "천년", "courseName": "천년 정신의 길", "slot": "94", "page": 102}], "special": true}, {"name": "경주 월성", "addr": "경상북도 경주시 원화로 102", "lat": 35.831839, "lng": 129.22273, "sido": "경북", "sigungu": "경주시", "stamps": [{"course": "천년", "courseName": "천년 정신의 길", "slot": "95", "page": 103}], "special": true}, {"name": "안동 하회마을", "addr": "경상북도 안동시 풍천면 하회리 1176-1", "lat": 36.539027, "lng": 128.518095, "sido": "경북", "sigungu": "안동시", "stamps": [{"course": "천년", "courseName": "천년 정신의 길", "slot": "98", "page": 106}], "special": true}, {"name": "경주 첨성대", "addr": "경상북도 경주시 인왕동 839-1", "lat": 35.834704, "lng": 129.218985, "sido": "경북", "sigungu": "경주시", "stamps": [{"course": "천년", "courseName": "천년 정신의 길", "slot": "92-1", "page": 100}], "special": false}, {"name": "경주 양동마을", "addr": "경상북도 경주시 강동면 양동마을길 134", "lat": 35.995766, "lng": 129.254073, "sido": "경북", "sigungu": "경주시", "stamps": [], "special": true}, {"name": "울주 대곡리 반구대 암각화", "addr": "울산광역시 울주군 두동면 반구대안길 234-1", "lat": 35.6142, "lng": 129.1806, "sido": "울산", "sigungu": "울주군", "stamps": [], "special": true}, {"name": "울주 천전리 명문과 암각화", "addr": "울산광역시 울주군 두동면 천전리 산210-2", "lat": 35.6247, "lng": 129.1836, "sido": "울산", "sigungu": "울주군", "stamps": [], "special": true}, {"name": "부산 아미동 비석문화마을", "addr": "부산광역시 서구 아미로 49", "lat": 35.098592, "lng": 129.015062, "sido": "부산", "sigungu": "서구", "stamps": [], "special": true}, {"name": "부산 임시수도기념관", "addr": "부산광역시 서구 임시수도기념로 45", "lat": 35.103327, "lng": 129.017361, "sido": "부산", "sigungu": "서구", "stamps": [], "special": true}, {"name": "재한유엔기념공원", "addr": "부산광역시 남구 유엔평화로 93", "lat": 35.127682, "lng": 129.097664, "sido": "부산", "sigungu": "남구", "stamps": [], "special": true}, {"name": "K-Heritage House(부산 벡스코)", "addr": "부산광역시 해운대구 APEC로 55", "lat": 35.168842, "lng": 129.136341, "sido": "부산", "sigungu": "해운대구", "stamps": [], "special": true}]};</script>
 <script>
 const S=HERITAGE_DATA.sites;
+// ===== i18n data & helpers =====
+let lang=(function(){try{return localStorage.getItem("heritage_lang")||"ko";}catch(e){return "ko";}})();
+const NAME_EN={"고령 지산동 고분군": "Goryeong Jisan-dong Ancient Tombs", "고성 송학동 고분군": "Goseong Songhak-dong Ancient Tombs", "국립김해박물관": "Gimhae National Museum", "김해 대성동 고분군": "Gimhae Daeseong-dong Ancient Tombs", "김해 수로왕릉": "Royal Tomb of King Suro (Gimhae)", "남원 유곡리와 두락리 고분군": "Namwon Yugok-ri & Durak-ri Ancient Tombs", "창녕 교동과 송현동 고분군": "Changnyeong Gyo-dong & Songhyeon-dong Ancient Tombs", "함안 말이산 고분군": "Haman Marisan Ancient Tombs", "합천 옥전 고분군": "Hapcheon Okjeon Ancient Tombs", "공산성": "Gongsanseong Fortress", "공주 마곡사": "Magoksa Temple (Gongju)", "논산 돈암서원": "Donam Seowon Academy (Nonsan)", "부여 나성": "Buyeo Naseong City Wall", "부소산성": "Busosanseong Fortress", "익산 미륵사지": "Mireuksa Temple Site (Iksan)", "익산 왕궁리 유적": "Wanggung-ri Historic Site (Iksan)", "부여 왕릉원": "Buyeo Royal Tombs (Neungsan-ri)", "부여 정림사지": "Jeongnimsa Temple Site (Buyeo)", "경주 옥산서원": "Oksan Seowon Academy (Gyeongju)", "달성 도동서원": "Dodong Seowon Academy (Dalseong)", "안동 도산서원": "Dosan Seowon Academy (Andong)", "안동 병산서원": "Byeongsan Seowon Academy (Andong)", "영주 소수서원": "Sosu Seowon Academy (Yeongju)", "장성 필암서원": "Piram Seowon Academy (Jangseong)", "정읍 무성서원": "Museong Seowon Academy (Jeongeup)", "함양 남계서원": "Namgye Seowon Academy (Hamyang)", "제주 마라도 천연보호구역": "Marado Island Nature Reserve", "만장굴": "Manjanggul Cave", "용머리해안": "Yongmeori Coast", "산방산": "Sanbangsan Mountain", "쇠소깍": "Soesokkak Estuary", "거문오름": "Geomunoreum Volcanic Cone", "성산일출봉": "Seongsan Ilchulbong (Sunrise Peak)", "제주 중문대포해안 주상절리대": "Jungmun Daepo Coast Columnar Joints", "남한산성": "Namhansanseong Fortress", "수원 화성": "Hwaseong Fortress (Suwon)", "종묘": "Jongmyo Shrine", "창덕궁": "Changdeokgung Palace", "융건릉": "Yunggeolleung Royal Tombs", "강화 고인돌 유적": "Ganghwa Dolmen Site", "강화 전등사": "Jeondeungsa Temple (Ganghwa)", "경복궁": "Gyeongbokgung Palace", "김포 장릉": "Jangneung Royal Tomb (Gimpo)", "한국의집": "Korea House", "강화역사박물관": "Ganghwa History Museum", "경포대": "Gyeongpodae Pavilion", "강릉 선교장": "Seongyojang House (Gangneung)", "오죽헌": "Ojukheon House", "속초 신흥사": "Sinheungsa Temple (Sokcho)", "양양 낙산사": "Naksansa Temple (Yangyang)", "평창 월정사": "Woljeongsa Temple (Pyeongchang)", "보은 법주사": "Beopjusa Temple (Boeun)", "순천 선암사": "Seonamsa Temple (Suncheon)", "순천 송광사": "Songgwangsa Temple (Suncheon)", "안동 봉정사": "Bongjeongsa Temple (Andong)", "양산 통도사": "Tongdosa Temple (Yangsan)", "영주 부석사": "Buseoksa Temple (Yeongju)", "합천 해인사": "Haeinsa Temple (Hapcheon)", "해남 대흥사": "Daeheungsa Temple (Haenam)", "연천 전곡리 유적": "Jeongok-ri Prehistoric Site (Yeoncheon)", "호로고루": "Horogoru Fortress", "철원 고석정": "Goseokjeong Pavilion (Cheorwon)", "포천 비둘기낭폭포": "Bidulginang Waterfall (Pocheon)", "포천 아트밸리": "Pocheon Art Valley", "한탄강 세계지질공원(포천)": "Hantangang UNESCO Geopark (Pocheon)", "포천 화적연": "Hwajeokyeon (Pocheon)", "고창판소리박물관": "Gochang Pansori Museum", "국립무형유산원": "National Intangible Heritage Center", "남원 광한루원": "Gwanghallu Pavilion Garden (Namwon)", "필봉농악전수관": "Pilbong Nongak Training Center", "국립남도국악원": "National Namdo Gugak Center", "국립해양유산연구소": "National Maritime Heritage Institute", "우수영국민관광지": "Usuyeong Tourist Site", "경주 계림": "Gyerim Forest (Gyeongju)", "경주 대릉원 일원": "Daereungwon Tombs (Gyeongju)", "경주 불국사": "Bulguksa Temple (Gyeongju)", "경주 석굴암": "Seokguram Grotto (Gyeongju)", "경주 월성": "Wolseong Palace Site (Gyeongju)", "안동 하회마을": "Hahoe Folk Village (Andong)", "경주 첨성대": "Cheomseongdae Observatory (Gyeongju)", "경주 양동마을": "Yangdong Folk Village (Gyeongju)", "울주 대곡리 반구대 암각화": "Bangudae Petroglyphs (Ulju)", "울주 천전리 명문과 암각화": "Cheonjeon-ri Petroglyphs (Ulju)", "부산 아미동 비석문화마을": "Ami-dong Tombstone Village (Busan)", "부산 임시수도기념관": "Provisional Capital Memorial Hall (Busan)", "재한유엔기념공원": "UN Memorial Cemetery in Korea", "K-Heritage House(부산 벡스코)": "K-Heritage House (BEXCO, Busan)"};const SIDO_EN={"강원": "Gangwon", "경기": "Gyeonggi", "경남": "Gyeongnam", "경북": "Gyeongbuk", "대구": "Daegu", "부산": "Busan", "서울": "Seoul", "울산": "Ulsan", "인천": "Incheon", "전남": "Jeonnam", "전북": "Jeonbuk", "제주": "Jeju", "충남": "Chungnam", "충북": "Chungbuk"};const SIGU_EN={"강릉시": "Gangneung", "강화군": "Ganghwa", "경주시": "Gyeongju", "고령군": "Goryeong", "고성군": "Goseong", "고창군": "Gochang", "공주시": "Gongju", "광주시": "Gwangju", "김포시": "Gimpo", "김해시": "Gimhae", "남구": "Nam-gu", "남원시": "Namwon", "논산시": "Nonsan", "달성군": "Dalseong", "목포시": "Mokpo", "보은군": "Boeun", "부여군": "Buyeo", "서구": "Seo-gu", "서귀포시": "Seogwipo", "속초시": "Sokcho", "수원시": "Suwon", "순천시": "Suncheon", "안동시": "Andong", "양산시": "Yangsan", "양양군": "Yangyang", "연천군": "Yeoncheon", "영주시": "Yeongju", "울주군": "Ulju", "익산시": "Iksan", "임실군": "Imsil", "장성군": "Jangseong", "전주시": "Jeonju", "정읍시": "Jeongeup", "제주시": "Jeju City", "종로구": "Jongno-gu", "중구": "Jung-gu", "진도군": "Jindo", "창녕군": "Changnyeong", "철원군": "Cheorwon", "평창군": "Pyeongchang", "포천시": "Pocheon", "함안군": "Haman", "함양군": "Hamyang", "합천군": "Hapcheon", "해남군": "Haenam", "해운대구": "Haeundae-gu", "화성시": "Hwaseong"};const COURSE_EN={"가야 문명의 길": "Gaya Civilization Route", "관동 풍류의 길": "Gwandong Scenic Route", "백제 고도의 길": "Baekje Ancient Capital Route", "산사의 길": "Mountain Temple Route", "서원의 길": "Confucian Academy Route", "선사 지질의 길": "Prehistory & Geology Route", "설화와 자연의 길": "Legend & Nature Route", "소릿길": "Korean Sound (Sori) Route", "왕가의 길": "Royal Family Route", "천년 정신의 길": "Millennium Spirit Route"};const T={"ko": {"multiRegions": "한 번에 도는 묶음", "singleSites": "단독 거점", "complete": "✓ 완주", "visitedMark": "방문", "away": "여기서 ~", "kmAway": "km", "checkVisit": "방문 체크", "visited": "✓ 방문함", "emptyRegion": "표시할 권역이 없습니다.", "emptySite": "표시할 거점이 없습니다.", "colTitleList": "권역 목록", "estPrefix": "예상 소요 ", "approx": "약 ", "move": "이동", "see": "관람", "dayRec": " 권장", "splitByDay": " · 지점 간 표시된 날짜로 나눠 도세요", "fromMe": " · 내 위치에서 ~", "remaining": " · 남은 ", "remainingUnit": "곳", "fullCar": "🚗 전체 자동차 경로", "segment": " · 구간 ", "kakao": "🧭 카카오맵", "naver": "네이버", "tmap": "티맵", "findRoute": "🧭 길찾기(자동차·대중교통)", "eachStamp": "◆ 위 ", "eachStamp2": "곳에 각각 스탬프 (중복 인증)", "fromPrev": "↑ 이전 지점에서 약 ", "allVisited": "🎉 이 권역은 모두 방문했어요!", "showHidden": "숨긴 항목 다시 보기", "specialSite": "◆ 세계유산위원회 특별코스 거점 (별도 특별여권)", "noPage": "쪽번호 정보 없음", "navnote": "전체 경로는 <b>네이버 지도 앱</b>에서 열립니다(앱 필요). 앱이 없으면 각 지점의 <b>‘길찾기’(카카오·네이버·티맵)</b>를 이용하세요. ※ 구글맵은 국내 자동차 길찾기를 지원하지 않습니다.", "locating": "위치 확인 중…", "sorted": "내 위치 기준 가까운 순으로 정렬했습니다.", "denied": "위치 권한이 거부되었습니다.", "failed": "위치를 가져오지 못했습니다.", "httpsNote": " (HTTPS에서 동작)", "noGeo": "이 브라우저는 위치를 지원하지 않습니다.", "gae": "개", "got": "곳"}, "en": {"multiRegions": "One-trip clusters", "singleSites": "Standalone sites", "complete": "✓ Done", "visitedMark": "visited", "away": "~", "kmAway": "km away", "checkVisit": "Mark visited", "visited": "✓ Visited", "emptyRegion": "No clusters to show.", "emptySite": "No sites to show.", "colTitleList": "Regions", "estPrefix": "Est. ", "approx": "~", "move": "travel", "see": "visit", "dayRec": " recommended", "splitByDay": " · split across the marked days", "fromMe": " · ~", "remaining": " · ", "remainingUnit": " left", "fullCar": "🚗 Full driving route", "segment": " · part ", "kakao": "🧭 KakaoMap", "naver": "Naver", "tmap": "TMAP", "findRoute": "🧭 Directions (car · transit)", "eachStamp": "◆ Stamp on all ", "eachStamp2": " course pages above (multi-cert.)", "fromPrev": "↑ ~", "allVisited": "🎉 You've visited everything here!", "showHidden": "Show hidden items", "specialSite": "◆ World Heritage Committee special course (separate passport)", "noPage": "No page info", "navnote": "The full route opens in the <b>Naver Map app</b> (app required). Otherwise use each stop's <b>Directions (Kakao·Naver·TMAP)</b>. ※ Google Maps does not provide in-country car directions in Korea.", "locating": "Locating…", "sorted": "Sorted by nearest to you.", "denied": "Location permission denied.", "failed": "Couldn't get your location.", "httpsNote": " (works on HTTPS)", "noGeo": "This browser doesn't support location.", "gae": "", "got": ""}};
+function TR(k){return (T[lang]&&T[lang][k]!=null)?T[lang][k]:(T.ko[k]!=null?T.ko[k]:k);}
+function sname(s){return lang==="en"?(NAME_EN[s.name]||s.name):s.name;}
+function sidoName(x){return lang==="en"?(SIDO_EN[x]||x):x;}
+function siguName(x){return lang==="en"?(SIGU_EN[x]||x):x;}
+function cnameOf(cn){if(lang!=="en")return cn;const mm=cn.match(/^(.*?)(?:\s*\((\d)\))?$/);const base=COURSE_EN[mm[1]]||mm[1];return base+(mm[2]?" ("+mm[2]+")":"");}
+const TS={"ko": {"h1brand": "국가유산 방문 가이드", "sub": "코스가 아니라 <b>실제로 가까운 거점끼리</b> 묶었습니다. 반경을 조절하면 그 거리 안에서 이어 도는 권역이 자동으로 묶이고, 권역을 누르면 방문 순서·예상 소요시간·길찾기(자동차·대중교통)·여권 스탬프 위치(코스·칸·쪽)를 보여줍니다.", "sliderLabel": "묶는 반경 (지점 간 최대 거리)", "gpsBtn": "📍 내 위치에서 가까운 순", "hideVisited": "다녀온 곳 숨기기", "dwellLabel": "거점당 관람", "statReg": "여러 곳 묶음 권역", "statBig": "가장 큰 묶음", "statSingle": "단독 거점", "statTotal": "전체 거점", "statVisit": "방문 완료", "reset": "초기화", "noteSummary": "스탬프 안내 (겹치는 거점·종묘 2회 등)", "noteBody": "한 거점이 여러 코스에 겹치면(마곡사·돈암서원·도산서원·봉정사) <b>각 코스 페이지에 각각</b> 찍어야 합니다. 종묘는 왕가의 길에서 <b>87p·96p 두 번</b> 찍습니다. 도장은 현장 <b>‘방문자 여권 셀프 체험존’</b> 비치본만 유효합니다. 세계유산위원회 특별코스 거점은 <b>별도 특별여권</b>이라 쪽번호가 없습니다.", "backToList": "← 권역 목록으로", "installTitle": "홈 화면에 앱으로 추가", "installDesc": "설치하면 주소창 없이 전체화면으로 실행되고, 오프라인에서도 열립니다.", "installBtn": "앱 설치", "ios2": "아이폰은 사파리 하단 <b>공유 ⬆️</b> → <b>‘홈 화면에 추가’</b>를 누르면 설치됩니다.", "readRt": "여행은 이렇게 코스로, 아이 국어 독해력도 코스로 잡으세요", "readRs": "가장 정확한 처방, 가장 완벽한 학습 — R.E.A.D. 독해 진단", "readCta": "무료 진단 시작 →", "introText": "(위 배너는 제가 만든 무료 국어 문해력×약점극복 앱입니다. 많은 관심 부탁드립니다.)", "footDisclosure": "※ 이 페이지는 개인이 공개정보를 바탕으로 만든 <b>비공식 안내</b>입니다. 국가유산청·국가유산 방문 캠페인의 공식 서비스가 아니며, 방문 전 공식 누리집에서 최신 정보(코스·스탬프 위치·혜택)를 확인하세요.", "license": "<b>제작·저작권</b> · © 2026 <b>박정빈</b>. 이 서비스는 박정빈이 기획·제작한 개인 저작물입니다(최초 제작 2026년). <b>무단 복제·재배포·도용을 금지</b>합니다. 다만 지인·주변에 <b>링크 공유와 홍보는 언제나 환영</b>합니다. 원본: <a href=\"https://readfit78-cyber.github.io/h-routeguide\" target=\"_blank\" rel=\"noopener\">https://readfit78-cyber.github.io/h-routeguide</a>", "dataCredit": "거점·주소·여권 쪽번호 데이터: 국가유산 방문 캠페인(국가유산청·국가유산진흥원) 공개정보 및 사용자 제공 여권 정보 정리 · 좌표: OpenStreetMap(근사) · 지도: Leaflet/OSM · 길찾기: 카카오맵·네이버지도·티맵. 소요시간은 도로거리·평균 50km/h·거점당 관람시간 기준 <b>추정치</b>입니다.<br>최신 코스·거점·혜택·스탬프 위치는 <a href=\"https://www.kh.or.kr/visit\" target=\"_blank\" rel=\"noopener\">국가유산 방문 캠페인 공식 누리집</a>에서 확인하세요.", "piracy": "⚠️ 무단 복제본일 수 있습니다. 이 콘텐츠의 원본·제작자는 <b>박정빈</b>입니다 · <a href=\"https://readfit78-cyber.github.io/h-routeguide\" target=\"_blank\" rel=\"noopener\">원본 보기</a><span class=\"x\" onclick=\"document.getElementById('piracy').style.display='none'\">✕</span>"}, "en": {"h1brand": "Korean Heritage Visit Guide", "sub": "Sites are grouped by <b>actual proximity</b>, not by course. Adjust the radius to auto-cluster nearby sites, then tap a region for the visiting order, estimated time, directions (car·transit), and passport stamp locations (course · box · page).", "sliderLabel": "Cluster radius (max distance between sites)", "gpsBtn": "📍 Sort by nearest to me", "hideVisited": "Hide visited", "dwellLabel": "Time per site", "statReg": "Multi-site clusters", "statBig": "Largest cluster", "statSingle": "Standalone sites", "statTotal": "Total sites", "statVisit": "Visited", "reset": "Reset", "noteSummary": "Stamp guide (overlapping sites, Jongmyo ×2, etc.)", "noteBody": "When a site belongs to several courses (Magoksa, Donam Seowon, Dosan Seowon, Bongjeongsa), stamp <b>each course page separately</b>. Jongmyo is stamped <b>twice on the Royal Family Route (p.87 & p.96)</b>. Only stamps at the on-site <b>'Visitor Passport self-service zone'</b> are valid. World Heritage Committee special-course sites use a <b>separate passport</b> with no page number.", "backToList": "← Back to regions", "installTitle": "Add to home screen", "installDesc": "Install to run full-screen without the address bar, and open offline.", "installBtn": "Install app", "ios2": "On iPhone: Safari <b>Share ⬆️</b> → <b>'Add to Home Screen'</b>.", "readRt": "Plan trips by course — and boost your child's Korean reading the same way", "readRs": "The most precise prescription, the most complete learning — R.E.A.D. reading diagnostics", "readCta": "Start free test →", "introText": "(The banner above is my free Korean literacy & weakness-fixing app — your interest is appreciated!)", "footDisclosure": "※ This is an <b>unofficial guide</b> made by an individual from public information. It is not an official service of the Korea Heritage Service or the Visit Korean Heritage Campaign. Please check the official website for the latest info (courses, stamp locations, benefits) before visiting.", "license": "<b>Credits · Copyright</b> · © 2026 <b>Park Jeongbin</b>. Planned & created by Park Jeongbin (first created 2026). <b>Unauthorized copying, redistribution, or misuse is prohibited.</b> Sharing the link with others is always welcome. Source: <a href=\"https://readfit78-cyber.github.io/h-routeguide\" target=\"_blank\" rel=\"noopener\">https://readfit78-cyber.github.io/h-routeguide</a>", "dataCredit": "Site/address/passport-page data: compiled from public info of the Visit Korean Heritage Campaign (Korea Heritage Service & KH Foundation) and user-provided passport info · Coordinates: OpenStreetMap (approx.) · Map: Leaflet/OSM · Directions: KakaoMap·Naver Map·TMAP. Times are <b>estimates</b> based on road distance, avg. 50 km/h, and per-site visit time.<br>Check the <a href=\"https://www.kh.or.kr/visit\" target=\"_blank\" rel=\"noopener\">official Visit Korean Heritage website</a> for the latest courses, sites, benefits, and stamp locations.", "piracy": "⚠️ This may be an unauthorized copy. Original & creator: <b>Park Jeongbin</b> · <a href=\"https://readfit78-cyber.github.io/h-routeguide\" target=\"_blank\" rel=\"noopener\">View original</a><span class=\"x\" onclick=\"document.getElementById('piracy').style.display='none'\">✕</span>"}};
+function applyLang(){
+ document.documentElement.lang=lang;
+ document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.getAttribute("data-i18n");if(TS[lang][k]!=null)el.textContent=TS[lang][k];});
+ document.querySelectorAll("[data-i18n-html]").forEach(el=>{const k=el.getAttribute("data-i18n-html");if(TS[lang][k]!=null)el.innerHTML=TS[lang][k];});
+ const dw=document.getElementById("dwell");if(dw)[...dw.options].forEach(o=>{o.textContent=lang==="en"?o.value+" min":o.value+"분";});
+ const pir=document.getElementById("piracy");if(pir&&TS[lang].piracy)pir.innerHTML=TS[lang].piracy;
+ const ke=document.getElementById("lang-ko"),ee=document.getElementById("lang-en");
+ if(ke)ke.classList.toggle("on",lang==="ko");if(ee)ee.classList.toggle("on",lang==="en");
+}
+function setLang(l){lang=l;try{localStorage.setItem("heritage_lang",l);}catch(e){}
+ const sid=selected?selected.id:null;applyLang();recompute();if(sid!=null)selectRegion(sid);}
+
 let TH=20, dwellMin=45, userLoc=null, regions=[], selected=null, map, layer, hideVisited=false, curStops=[];
 let VISITED=(function(){try{return JSON.parse(localStorage.getItem("heritage_visited")||"{}");}catch(e){return {};}})();
 function saveVisited(){try{localStorage.setItem("heritage_visited",JSON.stringify(VISITED));}catch(e){}}
 function isVisited(s){return !!VISITED[s.name];}
 function visitedCount(list){return list.filter(isVisited).length;}
-function updateVisitedStat(){const el=document.getElementById("s-visit");if(el)el.textContent=Object.keys(VISITED).length+"곳";}
+function updateVisitedStat(){const el=document.getElementById("s-visit");if(el)el.textContent=Object.keys(VISITED).length+TR("got");}
 function toggleVisit(i){const s=curStops[i];if(!s)return;if(VISITED[s.name])delete VISITED[s.name];else VISITED[s.name]=true;saveVisited();updateVisitedStat();if(selected)selectRegion(selected.id);}
 function resetVisited(){if(confirm("방문 기록을 모두 지울까요?")){VISITED={};saveVisited();updateVisitedStat();if(selected)selectRegion(selected.id);else renderLeft();}}
 const PALETTE=["#0E8E86","#B23A2E","#C98A1B","#4A6FA5","#7B5EA7","#2E8B57","#B5651D","#468499","#A0522D","#556B2F","#8E44AD","#16A085"];
@@ -313,10 +342,10 @@ function nn(pts,start){const n=pts.length,u=Array(n).fill(false),o=[start];u[sta
    for(let j=0;j<n;j++)if(!u[j]){const d=hav(pts[l],pts[j]);if(d<bd){bd=d;b=j;}}o.push(b);u[b]=true;}
  return o;}
 function twoOpt(order,pts){let best=order.slice(),imp=true;
- const L=a=>routeLen(a.map(i=>pts[i]));let bl=L(best);
+ const L=a=>routeLen(a.map(i=>pts[i]));let bl=TR(best);
  while(imp){imp=false;for(let i=1;i<best.length-1;i++)for(let k=i+1;k<best.length;k++){
    const c=best.slice(0,i).concat(best.slice(i,k+1).reverse(),best.slice(k+1));
-   const cl=L(c);if(cl<bl-1e-9){best=c;bl=cl;imp=true;}}}
+   const cl=TR(c);if(cl<bl-1e-9){best=c;bl=cl;imp=true;}}}
  return best;}
 function routeOf(members){
  if(members.length<=1)return members.slice();
@@ -328,15 +357,17 @@ function routeOf(members){
 }
 function regionName(m){
  const sidos=[...new Set(m.map(x=>x.sido))],sigus=[...new Set(m.map(x=>x.sigungu))];
- if(sidos.length===1){if(sigus.length===1)return sidos[0]+" "+sigus[0];
-   return sidos[0]+" "+sigus.slice(0,3).join("·")+(sigus.length>3?" 외":"");}
- return sidos.join("·")+" 일원";
+ const sd=sidos.map(sidoName),sg=sigus.map(siguName);
+ if(sidos.length===1){if(sigus.length===1)return sd[0]+" "+sg[0];
+   return sd[0]+" "+sg.slice(0,3).join("·")+(sg.length>3?(lang==="en"?" etc.":" 외"):"");}
+ return sd.join("·")+(lang==="en"?" area":" 일원");
 }
 function estTime(m){const road=routeLen(m)*ROADF,moveH=road/AVG,dwellH=dwellMin/60*m.length,total=moveH+dwellH;
  return {road,moveH,dwellH,total,days:Math.max(1,Math.ceil(total/DAYH))};}
-function fmtH(h){h=Math.round(h*10)/10;if(h<1)return Math.round(h*60)+"분";
- const hh=Math.floor(h),mm=Math.round((h-hh)*60);return hh+"시간"+(mm?" "+mm+"분":"");}
-function dayLabel(d){return d===2?"1박 2일":d>=3?(d-1)+"박 "+d+"일":"하루";}
+function fmtH(h){h=Math.round(h*10)/10;
+ if(lang==="en"){if(h<1)return Math.round(h*60)+" min";const hh=Math.floor(h),mm=Math.round((h-hh)*60);return hh+"h"+(mm?" "+mm+"m":"");}
+ if(h<1)return Math.round(h*60)+"분";const hh=Math.floor(h),mm=Math.round((h-hh)*60);return hh+"시간"+(mm?" "+mm+"분":"");}
+function dayLabel(d){if(lang==="en")return d===1?"1 day":d+" days";return d===2?"1박 2일":d>=3?(d-1)+"박 "+d+"일":"하루";}
 function dayPlan(m){const dw=dwellMin/60;let day=1,acc=0,plan=[];
  m.forEach((s,i)=>{const leg=i>0?hav(m[i-1],s)*ROADF/AVG:0;
    if(i>0&&acc+leg+dw>DAYH){day++;acc=0;}acc+=leg+dw;plan.push(day);});return plan;}
@@ -348,30 +379,30 @@ function recompute(){
  raw.forEach((r,i)=>{r.color=PALETTE[i%PALETTE.length];r.id=i;});
  regions=raw;
  const multi=regions.filter(r=>r.members.length>1);
- document.getElementById("s-reg").textContent=multi.length+"개";
- document.getElementById("s-big").textContent=Math.max(...regions.map(r=>r.members.length))+"곳";
- document.getElementById("s-single").textContent=regions.filter(r=>r.members.length===1).length+"곳";
+ document.getElementById("s-reg").textContent=multi.length+TR("gae");
+ document.getElementById("s-big").textContent=Math.max(...regions.map(r=>r.members.length))+TR("got");
+ document.getElementById("s-single").textContent=regions.filter(r=>r.members.length===1).length+TR("got");
  selected=null;renderLeft();drawAll();
 }
 function timeTag(r){const t=estTime(r.members);
- return r.members.length>1?`${dayLabel(t.days)} · 약 ${fmtH(t.total)}`:`관람 약 ${fmtH(t.dwellH)}`;}
+ return r.members.length>1?`${dayLabel(t.days)} · ${TR("approx")}${fmtH(t.total)}`:`${lang==="en"?"visit ":"관람 "}${TR("approx")}${fmtH(t.dwellH)}`;}
 function renderLeft(){
  document.getElementById("back").style.display="none";
- document.getElementById("col-title").textContent="권역 목록";
+ document.getElementById("col-title").textContent=TR("colTitleList");
  let multi=regions.filter(r=>r.members.length>1), singles=regions.filter(r=>r.members.length===1);
  const done=r=>visitedCount(r.members)===r.members.length;
  if(hideVisited){multi=multi.filter(r=>!done(r));singles=singles.filter(r=>!done(r));}
  const card=r=>{
    const v=visitedCount(r.members),n=r.members.length;
-   const prog=v===0?``:v===n?`<span class="rtag done">✓ 완주</span>`:`<span class="rtag prog">${v}/${n} 방문</span>`;
+   const prog=v===0?``:v===n?`<span class="rtag done">${TR("complete")}</span>`:`<span class="rtag prog">${v}/${n} ${TR("visitedMark")}</span>`;
    return `<div class="rcard${v===n&&v>0?' rdone':''}" onclick="selectRegion(${r.id})">
    <span class="rdot" style="background:${r.color}"></span>
    <div class="rinfo"><p class="rn">${r.name}</p>
-   <p class="rm">${r.members.map(m=>m.name).join(" · ")}</p>
-   <div class="rtags">${r.userDist!=null?`<span class="rtag dist">여기서 ~${Math.round(r.userDist)}km</span>`:``}${prog}<span class="rtag">${timeTag(r)}</span></div></div>
-   <span class="rc">${n}곳</span></div>`;};
- let h=`<details class="acc" open><summary>한 번에 도는 묶음 <span class="cnt">${multi.length}</span><span class="chev">›</span></summary><div class="rlist">${multi.map(card).join("")||'<p class="empty">표시할 권역이 없습니다.</p>'}</div></details>`;
- h+=`<details class="acc"><summary>단독 거점 <span class="cnt">${singles.length}</span><span class="chev">›</span></summary><div class="rlist single">${singles.map(card).join("")||'<p class="empty">표시할 거점이 없습니다.</p>'}</div></details>`;
+   <p class="rm">${r.members.map(sname).join(" · ")}</p>
+   <div class="rtags">${r.userDist!=null?`<span class="rtag dist">${lang==="en"?"~"+Math.round(r.userDist)+" km away":"여기서 ~"+Math.round(r.userDist)+"km"}</span>`:``}${prog}<span class="rtag">${timeTag(r)}</span></div></div>
+   <span class="rc">${n}${TR("got")}</span></div>`;};
+ let h=`<details class="acc" open><summary>${TR("multiRegions")} <span class="cnt">${multi.length}</span><span class="chev">›</span></summary><div class="rlist">${multi.map(card).join("")||'<p class="empty">'+TR("emptyRegion")+'</p>'}</div></details>`;
+ h+=`<details class="acc"><summary>${TR("singleSites")} <span class="cnt">${singles.length}</span><span class="chev">›</span></summary><div class="rlist single">${singles.map(card).join("")||'<p class="empty">'+TR("emptySite")+'</p>'}</div></details>`;
  document.getElementById("left").innerHTML=h;
  updateVisitedStat();
 }
@@ -390,9 +421,9 @@ function gmChunks(stops){
 }
 function stampHtml(s){
  let rows=(s.stamps||[]).map(st=>{const dup=s.stamps.length>1;
-   return `<div class="srow ${dup?'dup':''}"><span class="sl">${st.slot}</span><span class="cn">${st.courseName}</span><span class="pg">${st.page}p</span></div>`;}).join("");
- if(s.special) rows+=`<div class="spec">◆ 세계유산위원회 특별코스 거점 (별도 특별여권)</div>`;
- if(!rows) rows=`<div class="spec">쪽번호 정보 없음</div>`;
+   return `<div class="srow ${dup?'dup':''}"><span class="sl">${st.slot}</span><span class="cn">${cnameOf(st.courseName)}</span><span class="pg">${st.page}p</span></div>`;}).join("");
+ if(s.special) rows+=`<div class="spec">${TR("specialSite")}</div>`;
+ if(!rows) rows=`<div class="spec">${TR("noPage")}</div>`;
  return rows;
 }
 function naverChunks(stops){
@@ -416,36 +447,37 @@ function selectRegion(id){
  document.getElementById("col-title").textContent=selected.name;
  const kakao=s=>"https://map.kakao.com/link/to/"+encodeURIComponent(s.name)+","+s.lat.toFixed(6)+","+s.lng.toFixed(6);
  const tmap=s=>"tmap://route?goalname="+encodeURIComponent(s.name)+"&goalx="+s.lng.toFixed(6)+"&goaly="+s.lat.toFixed(6);
+ const naver=s=>"nmap://route/public?dlat="+s.lat.toFixed(6)+"&dlng="+s.lng.toFixed(6)+"&dname="+encodeURIComponent(s.name)+"&appname=heritage.guide";
  if(m.length===0){
    curStops=all;
-   document.getElementById("left").innerHTML=`<div class="alldone">🎉 이 권역은 모두 방문했어요!<br><button class="linklike" onclick="document.getElementById('hidev').checked=false;hideVisited=false;selectRegion(${id})">숨긴 항목 다시 보기</button></div>`;
+   document.getElementById("left").innerHTML=`<div class="alldone">${TR("allVisited")}<br><button class="linklike" onclick="document.getElementById('hidev').checked=false;hideVisited=false;selectRegion(${id})">${TR("showHidden")}</button></div>`;
    drawRegion(selected.color,all);return;
  }
  const t=estTime(m), plan=dayPlan(m);
  let h="";
  if(m.length>1){
-   h+=`<div class="summary">예상 소요 <b>약 ${fmtH(t.total)}</b> (이동 ${fmtH(t.moveH)} + 관람 ${fmtH(t.dwellH)}) · <b>${dayLabel(t.days)}</b> 권장`+
-      (t.days>1?` · 지점 간 표시된 날짜로 나눠 도세요`:``)+
-      (selected.userDist!=null?` · 내 위치에서 ~${Math.round(selected.userDist)}km`:``)+
-      (hideVisited&&all.length>m.length?` · <b>남은 ${m.length}곳</b>`:``)+`</div>`;
+   h+=`<div class="summary">${TR("estPrefix")}<b>${TR("approx")}${fmtH(t.total)}</b> (${TR("move")} ${fmtH(t.moveH)} + ${TR("see")} ${fmtH(t.dwellH)}) · <b>${dayLabel(t.days)}</b>${TR("dayRec")}`+
+      (t.days>1?TR("splitByDay"):``)+
+      (selected.userDist!=null?(lang==="en"?` · ~${Math.round(selected.userDist)} km from you`:` · 내 위치에서 ~${Math.round(selected.userDist)}km`):``)+
+      (hideVisited&&all.length>m.length?(lang==="en"?` · <b>${m.length} left</b>`:` · <b>남은 ${m.length}곳</b>`):``)+`</div>`;
    const nav=naverChunks(m);
-   h+=`<div class="gmbar">${nav.map((u,i)=>`<a class="gmbtn" href="${u}">🚗 전체 자동차 경로${nav.length>1?` · 구간 ${i+1}`:``}</a>`).join("")}</div>`;
-   h+=`<p class="navnote">전체 경로는 <b>네이버 지도 앱</b>에서 열립니다(앱 필요). 앱이 없으면 각 지점의 <b>‘길찾기’(카카오·티맵)</b>를 이용하세요. ※ 구글맵은 국내 자동차 길찾기를 지원하지 않습니다.</p>`;
+   h+=`<div class="gmbar">${nav.map((u,i)=>`<a class="gmbtn" href="${u}">${TR("fullCar")}${nav.length>1?`${TR("segment")}${i+1}`:``}</a>`).join("")}</div>`;
+   h+=`<p class="navnote">${TR("navnote")}</p>`;
  }else{
-   h+=`<div class="gmbar"><a class="gmbtn kakao" href="${kakao(m[0])}" target="_blank" rel="noopener">🧭 카카오맵</a><a class="gmbtn tmap" href="${tmap(m[0])}">티맵</a></div>`;
+   h+=`<div class="gmbar"><a class="gmbtn kakao" href="${kakao(m[0])}" target="_blank" rel="noopener">${TR("kakao")}</a><a class="gmbtn naver" href="${naver(m[0])}">${TR("naver")}</a><a class="gmbtn tmap" href="${tmap(m[0])}">${TR("tmap")}</a></div>`;
  }
  h+=`<div class="stops">`+m.map((s,i)=>{
    const div=(i===0||plan[i]!==plan[i-1])&&t.days>1?`<div class="day-div">Day ${plan[i]}</div>`:``;
-   const leg=i>0?`<p class="leg">↑ 이전 지점에서 약 ${(hav(m[i-1],s)*ROADF).toFixed(1)}km</p>`:``;
+   const leg=i>0?`<p class="leg">${lang==="en"?"↑ ~"+(hav(m[i-1],s)*ROADF).toFixed(1)+" km from previous":"↑ 이전 지점에서 약 "+(hav(m[i-1],s)*ROADF).toFixed(1)+"km"}</p>`:``;
    const dup=(s.stamps||[]).length>1; const vis=isVisited(s);
    return div+`<div class="stop${vis?' visited':''}" data-i="${i}" onclick="focusStop(${i})">
      <div class="pin">${i+1}</div>
      <div class="body">${leg}
-     <div class="nmrow"><p class="nm">${s.name}</p><button class="visit${vis?' on':''}" onclick="event.stopPropagation();toggleVisit(${i})">${vis?'✓ 방문함':'방문 체크'}</button></div>
+     <div class="nmrow"><p class="nm">${sname(s)}</p><button class="visit${vis?' on':''}" onclick="event.stopPropagation();toggleVisit(${i})">${vis?TR("visited"):TR("checkVisit")}</button></div>
      <p class="ad">${s.addr}</p>
      <div class="stamps">${stampHtml(s)}</div>
-     ${dup?`<div class="dupwarn">◆ 위 ${s.stamps.length}곳에 각각 스탬프 (중복 인증)</div>`:``}
-     <div class="navrow"><span class="navlbl">🧭 길찾기</span><a class="stopnav kakao" href="${kakao(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">카카오맵</a><a class="stopnav tmap" href="${tmap(s)}" onclick="event.stopPropagation()">티맵</a></div>
+     ${dup?`<div class="dupwarn">${lang==="en"?"◆ Stamp on all "+s.stamps.length+" course pages above":"◆ 위 "+s.stamps.length+"곳에 각각 스탬프 (중복 인증)"}</div>`:``}
+     <div class="navrow"><span class="navlbl">${TR("findRoute")}</span><a class="stopnav kakao" href="${kakao(s)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${TR("kakao").replace("🧭 ","")}</a><a class="stopnav naver" href="${naver(s)}" onclick="event.stopPropagation()">${TR("naver")}</a><a class="stopnav tmap" href="${tmap(s)}" onclick="event.stopPropagation()">${TR("tmap")}</a></div>
      </div></div>`;}).join("")+`</div>`;
  document.getElementById("left").innerHTML=h;
  drawRegion(selected.color,m);
@@ -460,7 +492,7 @@ function drawAll(){
  const all=[];
  regions.forEach(r=>{const c=r.members.length>1?r.color:"#9a9384";
    r.members.forEach(s=>{const icon=L.divIcon({className:"",html:`<div class="dotpin" style="background:${c}"></div>`,iconSize:[13,13],iconAnchor:[6,6]});
-     const mk=L.marker([s.lat,s.lng],{icon}).addTo(layer);mk.bindPopup(`<b>${s.name}</b><br>${r.name}`);
+     const mk=L.marker([s.lat,s.lng],{icon}).addTo(layer);mk.bindPopup(`<b>${sname(s)}</b><br>${r.name}`);
      mk.on("click",()=>selectRegion(r.id));all.push([s.lat,s.lng]);});
    if(r.members.length>1)L.polyline(r.members.map(s=>[s.lat,s.lng]),{color:r.color,weight:2,opacity:.5}).addTo(layer);});
  meMarker();if(userLoc)all.push([userLoc.lat,userLoc.lng]);
@@ -470,7 +502,7 @@ function drawRegion(color, stops){
  ensureMap();if(layer)map.removeLayer(layer);layer=L.layerGroup().addTo(map);
  const pts=[];
  stops.forEach((s,i)=>{const icon=L.divIcon({className:"",html:`<div class="numpin" style="background:${color}"><span>${i+1}</span></div>`,iconSize:[28,28],iconAnchor:[14,28]});
-   const mk=L.marker([s.lat,s.lng],{icon}).addTo(layer);mk.bindPopup(`<b>${i+1}. ${s.name}</b><br>${s.addr}`);
+   const mk=L.marker([s.lat,s.lng],{icon}).addTo(layer);mk.bindPopup(`<b>${i+1}. ${sname(s)}</b><br>${s.addr}`);
    mk.on("click",()=>focusStop(i));pts.push([s.lat,s.lng]);});
  if(pts.length>1)L.polyline(pts,{color:color,weight:3,opacity:.85,dashArray:"1,7",lineCap:"round"}).addTo(layer);
  meMarker();if(pts.length)map.fitBounds(pts,{padding:[50,50],maxZoom:12});
@@ -482,14 +514,15 @@ document.getElementById("dwell").onchange=function(){dwellMin=+this.value;if(sel
 document.getElementById("hidev").onchange=function(){hideVisited=this.checked;if(selected)selectRegion(selected.id);else renderLeft();};
 document.getElementById("gps").onclick=function(){
  const btn=this,msg=document.getElementById("gps-msg");
- if(!navigator.geolocation){msg.textContent="이 브라우저는 위치를 지원하지 않습니다.";return;}
- msg.textContent="위치 확인 중…";
+ if(!navigator.geolocation){msg.textContent=TR("noGeo");return;}
+ msg.textContent=TR("locating");
  navigator.geolocation.getCurrentPosition(
   p=>{userLoc={lat:p.coords.latitude,lng:p.coords.longitude};btn.classList.add("on");
-      msg.textContent="내 위치 기준 가까운 순으로 정렬했습니다.";recompute();},
-  e=>{msg.textContent=(e.code===1?"위치 권한이 거부되었습니다.":"위치를 가져오지 못했습니다.")+" (HTTPS에서 동작)";},
+      msg.textContent=TR("sorted");recompute();},
+  e=>{msg.textContent=(e.code===1?TR("denied"):TR("failed"))+TR("httpsNote");},
   {enableHighAccuracy:false,timeout:8000,maximumAge:60000});
 };
+applyLang();
 document.getElementById("note-d").open = window.innerWidth>880;
 
 // ---- PWA: install button + service worker ----
@@ -503,7 +536,7 @@ document.getElementById("note-d").open = window.innerWidth>880;
  function doInstall(){
    if(deferred){deferred.prompt();deferred.userChoice.finally(()=>{deferred=null;if(btn)btn.style.display="none";});}
    else if(isIOS){ if(ios2)ios2.style.display="block"; if(tip)tip.style.display="block"; }
-   else { if(ios2){ios2.innerHTML="브라우저 메뉴(⋮)에서 <b>‘앱 설치’</b> 또는 <b>‘홈 화면에 추가’</b>를 선택하세요.";ios2.style.display="block";} }
+   else { if(ios2){ios2.innerHTML=lang==="en"?"In the browser menu (⋮), choose <b>'Install app'</b> or <b>'Add to Home screen'</b>.":"브라우저 메뉴(⋮)에서 <b>‘앱 설치’</b> 또는 <b>‘홈 화면에 추가’</b>를 선택하세요.";ios2.style.display="block";} }
  }
  window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;if(!isStandalone&&btn)btn.style.display="inline-block";});
  if(btn)btn.addEventListener("click",doInstall);
