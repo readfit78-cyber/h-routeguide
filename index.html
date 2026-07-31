@@ -489,10 +489,11 @@ function drawAll(){
  ensureMap();if(layer)map.removeLayer(layer);layer=L.layerGroup().addTo(map);
  const all=[];
  regions.forEach(r=>{const c=r.members.length>1?r.color:"#9a9384";
-   r.members.forEach(s=>{const icon=L.divIcon({className:"",html:`<div class="dotpin" style="background:${c}"></div>`,iconSize:[13,13],iconAnchor:[6,6]});
+   const mem=hideVisited?r.members.filter(s=>!isVisited(s)):r.members;
+   mem.forEach(s=>{const icon=L.divIcon({className:"",html:`<div class="dotpin" style="background:${c}"></div>`,iconSize:[13,13],iconAnchor:[6,6]});
      const mk=L.marker([s.lat,s.lng],{icon}).addTo(layer);mk.bindPopup(`<b>${sname(s)}</b><br>${r.name}`);
      mk.on("click",()=>selectRegion(r.id));all.push([s.lat,s.lng]);});
-   if(r.members.length>1)L.polyline(r.members.map(s=>[s.lat,s.lng]),{color:r.color,weight:2,opacity:.5}).addTo(layer);});
+   if(mem.length>1)L.polyline(mem.map(s=>[s.lat,s.lng]),{color:r.color,weight:2,opacity:.5}).addTo(layer);});
  meMarker();if(userLoc)all.push([userLoc.lat,userLoc.lng]);
  if(all.length)map.fitBounds(all,{padding:[30,30]});
 }
@@ -509,7 +510,7 @@ function focusStop(i){[...document.querySelectorAll(".stop")].forEach(e=>e.class
  if(curStops[i])map.setView([curStops[i].lat,curStops[i].lng],12,{animate:true});}
 document.getElementById("th").oninput=function(){TH=+this.value;document.getElementById("thval").textContent=TH+" km";recompute();};
 document.getElementById("dwell").onchange=function(){dwellMin=+this.value;if(selected)selectRegion(selected.id);else renderLeft();};
-document.getElementById("hidev").onchange=function(){hideVisited=this.checked;if(selected)selectRegion(selected.id);else renderLeft();};
+document.getElementById("hidev").onchange=function(){hideVisited=this.checked;if(selected)selectRegion(selected.id);else{renderLeft();drawAll();}};
 document.getElementById("gps").onclick=function(){
  const btn=this,msg=document.getElementById("gps-msg");
  if(!navigator.geolocation){msg.textContent=TR("noGeo");return;}
