@@ -237,9 +237,9 @@ body{word-break:keep-all}
 <body>
 <div class="piracy" id="piracy">⚠️ 무단 복제본일 수 있습니다. 이 콘텐츠의 원본·제작자는 <b>박정빈</b>입니다 · <a href="https://readfit78-cyber.github.io/h-routeguide" target="_blank" rel="noopener">원본 보기</a><span class="x" onclick="document.getElementById('piracy').style.display='none'">✕</span></div>
 <div class="wrap">
- <a class="gil-card" href="https://gyeotgil.vercel.app" target="_blank" rel="noopener" aria-label="곁길 바로가기">
+ <a class="gil-card" id="gil-link" href="https://gyeotgil.vercel.app" target="_blank" rel="noopener" aria-label="곁길 바로가기">
   <span class="gil-img-wrap"><img src="./gyeotgil-banner.png" alt="곁길" onerror="this.closest('.gil-card').classList.add('gil-noimg')"></span>
-  <span class="gil-caption"><span data-i18n="gilCaptionText">국가유산 거점 곁의 여행지·지역 코스까지 — 지나치기 쉬운 곳들을 곁길이 안내합니다.</span> <b data-i18n="gilCta">곁길 바로가기 →</b></span>
+  <span class="gil-caption"><span data-i18n="gilCaptionText">국가유산 거점 곁의 여행지·지역 코스까지 — 지나치기 쉬운 곳들을 곁길이 안내합니다.</span> <b id="gil-cta-txt" data-i18n="gilCta">곁길 바로가기 →</b></span>
  </a>
  <div class="langbar"><button class="langbtn" id="lang-ko" onclick="setLang('ko')">한국어</button><button class="langbtn" id="lang-en" onclick="setLang('en')">EN</button></div>
  <header>
@@ -324,6 +324,23 @@ function applyLang(){
  const pir=document.getElementById("piracy");if(pir&&TS[lang].piracy)pir.innerHTML=TS[lang].piracy;
  const ke=document.getElementById("lang-ko"),ee=document.getElementById("lang-en");
  if(ke)ke.classList.toggle("on",lang==="ko");if(ee)ee.classList.toggle("on",lang==="en");
+ applyGilLink();
+}
+// ---- gyeotgil link: Apple -> web app, others -> Play Store ----
+const GIL_WEB="https://gyeotgil.vercel.app";
+const GIL_PLAY="https://play.google.com/store/apps/details?id=com.hanbaek.gyeotgil&referrer=utm_source%3Dheritage_guide";
+function isAppleDevice(){
+ const ua=navigator.userAgent||"",pf=navigator.platform||"";
+ if(/iPhone|iPad|iPod/i.test(ua))return true;
+ if(/Mac/i.test(pf)||/Macintosh|Mac OS X/i.test(ua))return true;
+ return false;
+}
+function applyGilLink(){
+ const a=document.getElementById("gil-link");if(!a)return;
+ const apple=isAppleDevice();
+ a.href=apple?GIL_WEB:GIL_PLAY;
+ const c=document.getElementById("gil-cta-txt");
+ if(c&&!apple)c.textContent=lang==="en"?"Get it on Google Play \u2192":"Google Play\uc5d0\uc11c \ubc1b\uae30 \u2192";
 }
 function setLang(l){lang=l;try{localStorage.setItem("heritage_lang",l);}catch(e){}
  const sid=selected?selected.id:null;applyLang();recompute();if(sid!=null)selectRegion(sid);}
